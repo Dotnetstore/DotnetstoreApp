@@ -1,0 +1,21 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{8DCC053A-6900-4607-810B-DDD5C5291AD6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorUi", "src\ui\BlazorUi\BlazorUi.csproj", "{FED73714-EAE8-4466-BABA-3364212B9988}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FED73714-EAE8-4466-BABA-3364212B9988} = {8DCC053A-6900-4607-810B-DDD5C5291AD6}
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FED73714-EAE8-4466-BABA-3364212B9988}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FED73714-EAE8-4466-BABA-3364212B9988}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FED73714-EAE8-4466-BABA-3364212B9988}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FED73714-EAE8-4466-BABA-3364212B9988}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
