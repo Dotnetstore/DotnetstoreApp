@@ -1,4 +1,8 @@
-﻿@inherits LayoutComponentBase
+﻿@using System.Globalization
+@using BlazorUi.Services
+@inherits LayoutComponentBase
+@inject ResXMudLocalizer LanguageResource;
+@inject IJSRuntime JsRuntime;
 
 <MudThemeProvider Theme="@_theme" IsDarkMode="_isDarkMode"/>
 <MudPopoverProvider/>
@@ -7,8 +11,14 @@
 <MudLayout>
     <MudAppBar Elevation="1">
         <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())"/>
-        <MudText Typo="Typo.h5" Class="ml-3">Application</MudText>
+        <MudText Typo="Typo.h5" Class="ml-3">@LanguageResource["Dotnetstore"]</MudText>
         <MudSpacer/>
+        <MudStack Style="width: 150px">
+            <MudSelect @bind-Value="_selectedCulture" Label="Language" OnValueChanged="OnLanguageChanged" FullWidth="false">
+                <MudSelectItem Value="@(CultureInfo.GetCultureInfo("en-US"))"/>
+                <MudSelectItem Value="@(CultureInfo.GetCultureInfo("sv-SE"))"/>
+            </MudSelect>
+        </MudStack>
         <MudIconButton Icon="@(DarkLightModeButtonIcon)" Color="Color.Inherit" OnClick="@DarkModeToggle"/>
         <MudIconButton Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit" Edge="Edge.End"/>
     </MudAppBar>
@@ -30,18 +40,24 @@
 @code {
     private bool _drawerOpen = true;
     private bool _isDarkMode = true;
-    private MudTheme? _theme = null;
+    private MudTheme? _theme;
+    private CultureInfo _selectedCulture = CultureInfo.GetCultureInfo("en-US");
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
 
-        _theme = new()
+        _theme = new MudTheme
         {
             PaletteLight = _lightPalette,
             PaletteDark = _darkPalette,
             LayoutProperties = new LayoutProperties()
         };
+    }
+    
+    private async Task OnLanguageChanged(CultureInfo cultureInfo)
+    {
+        await SetLanguageAsync(cultureInfo.DisplayName);
     }
 
     private void DrawerToggle()
@@ -93,10 +109,20 @@
         OverlayLight = "#1e1e2d80",
     };
 
-    public string DarkLightModeButtonIcon => _isDarkMode switch
+    private string DarkLightModeButtonIcon => _isDarkMode switch
     {
         true => Icons.Material.Rounded.AutoMode,
         false => Icons.Material.Outlined.DarkMode,
     };
 
+    private async Task SetLanguageAsync(string culture)
+    {
+        var selectedCulture = new CultureInfo(culture);
+        CultureInfo.DefaultThreadCurrentCulture = selectedCulture;
+        CultureInfo.DefaultThreadCurrentUICulture = selectedCulture;
+
+        await JsRuntime.InvokeVoidAsync("blazorCulture.set", culture);
+
+        StateHasChanged();
+    }
 }

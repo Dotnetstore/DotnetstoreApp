@@ -1,14 +1,30 @@
+using System.Globalization;
 using MudBlazor.Services;
 using BlazorUi.Components;
+using BlazorUi.Services;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Add MudBlazor services
-builder.Services.AddMudServices();
+var cancellationToken = new CancellationTokenSource().Token;
 
 // Add services to the container.
-builder.Services.AddRazorComponents()
+builder.Services
+    .AddMudServices()
+    .AddRazorComponents()
     .AddInteractiveServerComponents();
+
+builder.Services
+    .AddLocalization(options => options.ResourcesPath = "Resources");
+
+var supportedCultures = new[] { new CultureInfo("en"), new CultureInfo("sv") };
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+    options.DefaultRequestCulture = new Microsoft.AspNetCore.Localization.RequestCulture("en");
+    options.SupportedCultures = supportedCultures;
+    options.SupportedUICultures = supportedCultures;
+});
+
+builder.Services.AddScoped<ResXMudLocalizer>();
 
 var app = builder.Build();
 
@@ -20,13 +36,14 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.UseHttpsRedirection();
-
-
-app.UseAntiforgery();
+app
+    .UseRequestLocalization(app.Services.GetService<IOptions<RequestLocalizationOptions>>()!.Value)
+    .UseHttpsRedirection()
+    .UseAntiforgery();
 
 app.MapStaticAssets();
-app.MapRazorComponents<App>()
+app
+    .MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 
-app.Run();
+await app.RunAsync(cancellationToken);
