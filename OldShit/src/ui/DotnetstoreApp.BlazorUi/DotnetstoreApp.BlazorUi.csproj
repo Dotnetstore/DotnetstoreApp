@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Extensions.Localization" Version="9.0.7" />
+        <PackageReference Include="MudBlazor" Version="8.*"/>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\api\DotnetstoreApp.CV\DotnetstoreApp.CV.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Include="wwwroot\Images\Hans.png" />
+    </ItemGroup>
+</Project>

@@ -1,0 +1,107 @@
+﻿@page "/cv"
+@using DotnetstoreApp.CV.Cvs
+@using DotnetstoreApp.SDK.Responses.CV
+@inject ICvService CvService
+@inject NavigationManager NavigationManager
+
+<PageTitle>CV</PageTitle>
+
+<MudText Typo="Typo.h3" GutterBottom="true" data-testid="cv_header">CV</MudText>
+
+<MudText Typo="Typo.body1" Class="mb-4" data-testid="cv_description">Här är en lista med alla dina CV.</MudText>
+
+<MudTable Items="_cvList" 
+          Hover="true" 
+          Breakpoint="Breakpoint.Sm" 
+          Loading="@_loading" 
+          LoadingProgressColor="Color.Info">
+    <HeaderContent>
+        <MudTh>Name</MudTh>
+        <MudTh>Language</MudTh>
+        <MudTh>
+            <MudButton Color="Color.Success" StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" data-testid="add_cv_button" OnClick="@(() => AddNewCv())">
+                Lägg till
+            </MudButton>
+        </MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Name" data-testid="cv_name">@context.Name</MudTd>
+        <MudTd DataLabel="Language">@context.Language</MudTd>
+        <MudTd>
+            <MudButton Color="Color.Primary" 
+                       StartIcon="@Icons.Material.Filled.Details" 
+                       Variant="Variant.Filled" 
+                       data-testid="view_cv_button"
+                       data-id="@context.Name"
+                       OnClick="@(() => ShowDetail(context))">
+                Visa
+            </MudButton>
+            <MudButton Color="Color.Warning" 
+                       StartIcon="@Icons.Material.Filled.Edit" 
+                       Variant="Variant.Filled" 
+                       data-testid="cv_edit_button"
+                       data-id="@context.Name"
+                       OnClick="@(() => Edit(context))">
+                Redigera
+            </MudButton>
+            <MudButton Color="Color.Error" 
+                       StartIcon="@Icons.Material.Filled.Delete" 
+                       Variant="Variant.Filled" 
+                       data-testid="delete_cv_button"
+                       data-id="@context.Name"
+                       OnClick="@(async () => await DeleteCv(context))">
+                Radera
+            </MudButton>
+        </MudTd>
+    </RowTemplate>
+</MudTable>
+
+<MudMessageBox @ref="_mudMessageBox" Title="Warning" CancelText="Cancel">
+    <MessageContent>
+        Är du säker på att du vill radera detta CV? Denna åtgärd kan inte ångras.
+    </MessageContent>
+    <YesButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Error" StartIcon="@Icons.Material.Filled.DeleteForever">Delete!</MudButton>
+    </YesButton>
+</MudMessageBox>
+
+@code {
+    private IEnumerable<CvResponse> _cvList = [];
+    private bool _loading = true;
+    private MudMessageBox _mudMessageBox = null!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _cvList = await CvService.GetAllAsync();
+        _loading = false;
+    }
+    
+    private void ShowDetail(CvResponse cv)
+    {
+        NavigationManager.NavigateTo($"/cv/{cv.Id}");
+    }
+    
+    private void Edit(CvResponse cv)
+    {
+        NavigationManager.NavigateTo($"/cv/update/{cv.Id}");
+    }
+
+    private async ValueTask DeleteCv(CvResponse cv)
+    {
+        var result = await _mudMessageBox.ShowAsync();
+        
+        if (result is null or false)
+        {
+            return;
+        }
+        
+        await CvService.DeleteAsync(cv.Id);
+        _cvList = await CvService.GetAllAsync();
+        StateHasChanged();
+    }
+
+    private void AddNewCv()
+    {
+        NavigationManager.NavigateTo("/cv/create");
+    }
+}

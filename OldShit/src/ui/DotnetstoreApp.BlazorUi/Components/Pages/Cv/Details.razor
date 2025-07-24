@@ -1,0 +1,56 @@
+﻿@page "/cv/{Id:guid}"
+@using DotnetstoreApp.CV.Cvs
+@using DotnetstoreApp.SDK.Enums
+@using DotnetstoreApp.SDK.Responses.CV
+@inject ICvService CvService
+@inject NavigationManager NavigationManager
+
+@if(_cv.Id == Guid.Empty)
+{
+    <MudProgressCircular Indeterminate="true" Color="Color.Primary" />
+}
+else
+{
+    <ComponentCvDetail Cv="_cv"/>
+    <ComponentCvInformationDetail CvId="@Id"
+                                InformationType="@CvInformationType.Architecture"
+                                InformationList="@_cv.Information.Where(x => x.InformationType == CvInformationType.Architecture).ToList()"/>
+    <ComponentCvInformationDetail CvId="@Id"
+                                InformationType="@CvInformationType.Cloud"
+                                InformationList="@_cv.Information.Where(x => x.InformationType == CvInformationType.Cloud).ToList()"/>
+    <ComponentCvInformationDetail CvId="@Id"
+                                InformationType="@CvInformationType.DesiredRole"
+                                InformationList="@_cv.Information.Where(x => x.InformationType == CvInformationType.DesiredRole).ToList()"/>
+    <ComponentCvInformationDetail CvId="@Id"
+                                InformationType="@CvInformationType.Devops"
+                                InformationList="@_cv.Information.Where(x => x.InformationType == CvInformationType.Devops).ToList()"/>
+    <ComponentCvInformationDetail CvId="@Id"
+                                InformationType="@CvInformationType.Language"
+                                InformationList="@_cv.Information.Where(x => x.InformationType == CvInformationType.Language).ToList()"/>
+    <ComponentCvInformationDetail CvId="@Id"
+                                InformationType="@CvInformationType.Leadership"
+                                InformationList="@_cv.Information.Where(x => x.InformationType == CvInformationType.Leadership).ToList()"/>
+    <ComponentCvInformationDetail CvId="@Id"
+                                InformationType="@CvInformationType.Programming"
+                                InformationList="@_cv.Information.Where(x => x.InformationType == CvInformationType.Programming).ToList()"/>
+    <ComponentCvExperienceDetail Id="@_cv.Id"
+                                 CvExperienceResponses="@_cv.Experiences"/>
+    <ComponentCvEducationDetail Id="@_cv.Id"
+                                CvEducationResponses="@_cv.Educations"/>
+}
+
+@code {
+    [Parameter] public Guid Id { get; set; }
+    
+    private CvFullResponse _cv;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _cv = await CvService.GetByIdAsync(Id);
+        
+        if (_cv.Id == Guid.Empty)
+        {
+            NavigationManager.NavigateTo("/cv", true);
+        }
+    }
+}

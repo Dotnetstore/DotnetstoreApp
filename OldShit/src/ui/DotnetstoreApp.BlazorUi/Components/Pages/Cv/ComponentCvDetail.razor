@@ -1,0 +1,50 @@
+﻿@using DotnetstoreApp.SDK.Responses.CV
+
+@if(Cv.Id == Guid.Empty)
+{
+    <MudText Typo="Typo.body1" Class="mb-4">Laddar CV...</MudText>
+}
+else
+{
+    <PageTitle>@Cv.Name (@Cv.Language)</PageTitle>
+
+    <MudText Typo="Typo.h3" GutterBottom="true">@Cv.Name (@Cv.Language)</MudText>
+    
+    <MudCard>
+        <MudCardHeader>
+            <MudText Typo="Typo.h5" Class="mb-4">@Cv.FirstName @Cv.LastName</MudText>
+        </MudCardHeader>
+        <MudCardMedia Image="Images/Hans.png" Style="width: 180px; height: 200px;"/>
+        <MudCardContent>
+            <MudSimpleTable>
+                <tbody>
+                <tr>
+                    <td style="width: 200px;"><MudText Typo="Typo.h6">Efternamn</MudText></td>
+                    <td><MudText Typo="Typo.body2">@Cv.LastName</MudText></td>
+                </tr>
+                <tr>
+                    <td style="width: 200px;"><MudText Typo="Typo.h6">Förnamn</MudText></td>
+                    <td><MudText Typo="Typo.body2">@Cv.FirstName</MudText></td>
+                </tr>
+                <tr>
+                    <td style="width: 200px;"><MudText Typo="Typo.h6">Födelsedag</MudText></td>
+                    <td><MudText Typo="Typo.body2">@Cv.DateOfBirth.ToShortDateString()</MudText></td>
+                </tr>
+                </tbody>
+            </MudSimpleTable>
+        </MudCardContent>
+    </MudCard>
+    <MudDivider/>
+    <MudCard>
+        <MudCardHeader>
+            <MudText Typo="Typo.h5" Class="mb-4">Introduktion</MudText>
+        </MudCardHeader>
+        <MudCardContent>
+            <MudText Typo="Typo.body2" Class="mb-4">@Cv.Introduction</MudText>
+        </MudCardContent>
+    </MudCard>
+}
+
+@code {
+    [Parameter] public CvFullResponse Cv  { get; set; }
+}

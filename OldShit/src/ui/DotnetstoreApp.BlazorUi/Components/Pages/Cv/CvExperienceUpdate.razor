@@ -1,0 +1,157 @@
+﻿@page "/cv/experience/update/{Id:guid}/{CvId:guid}"
+@using DotnetstoreApp.CV.Experiences
+@using DotnetstoreApp.SDK.Requests.CV
+
+@inject ICvExperienceService CvExperienceService
+@inject NavigationManager NavigationManager
+
+<PageTitle>Uppdatera erfarenhet</PageTitle>
+
+<MudText Typo="Typo.h3" GutterBottom="true">Uppdatera erfarenhet</MudText>
+
+@if(!string.IsNullOrEmpty(_errorMessage))
+{
+    <MudAlert Severity="Severity.Error" Class="my-2">@_errorMessage</MudAlert>
+}
+
+<MudCard>
+    <MudForm Model="@_model" @ref="@_form" Validation="@_validator.ValidateValue" ValidationDelay="0">
+        <MudCardContent>
+            <MudDatePicker @bind-Date="_model.StartDate"
+                           For="@(() => _model.StartDate)"
+                           data-testid="startdate_textfield"
+                           Editable="true"
+                           Label="Startdatum"/>
+            
+            <MudDatePicker @bind-Date="_model.EndDate"
+                           For="@(() => _model.EndDate)"
+                           data-testid="enddate_textfield"
+                           Editable="true"
+                           Label="Slutdatum"/>
+
+            <MudTextField @bind-Value="_model.Company"
+                          For="@(() => _model.Company)"
+                          data-testid="company_textfield"
+                          Immediate="true"
+                          Label="Företag"/>
+
+            <MudCheckBox @bind-Value="_model.IsConsultant"
+                         For="@(() => _model.IsConsultant)"
+                         data-testid="isconsultant_checkbox"
+                         Label="Konsultuppdrag"/>
+
+            <MudTextField @bind-Value="_model.Role"
+                          For="@(() => _model.Role)"
+                          data-testid="role_textfield"
+                          Immediate="true"
+                          Label="Roll"/>
+
+            <MudTextField @bind-Value="_model.Extent"
+                          For="@(() => _model.Extent)"
+                          data-testid="extent_textfield"
+                          Immediate="true"
+                          Label="Omfattning"/>
+
+            <MudTextField @bind-Value="_model.Tools"
+                          For="@(() => _model.Tools)"
+                          data-testid="tools_textfield"
+                          Lines="3"
+                          Immediate="true"
+                          Label="Metoder & verktyg"/>
+
+            <MudTextField @bind-Value="_model.CompanyNeeds"
+                          For="@(() => _model.CompanyNeeds)"
+                          data-testid="companyneeds_textfield"
+                          Lines="5"
+                          Immediate="true"
+                          Label="Företagets behov"/>
+
+            <MudTextField @bind-Value="_model.Mission"
+                          For="@(() => _model.Mission)"
+                          data-testid="mission_textfield"
+                          Lines="5"
+                          Immediate="true"
+                          Label="Uppdragsbeskrivning"/>
+        </MudCardContent>
+    </MudForm>
+    <MudCardActions>
+        <MudButton Variant="Variant.Filled" 
+                   StartIcon="@Icons.Material.Filled.Save" 
+                   data-testid="save_experience_button"
+                   Color="Color.Primary" 
+                   Class="ml-auto" 
+                   OnClick="@(async () => await Submit())">Save</MudButton>
+        <MudButton Variant="Variant.Filled" 
+                   StartIcon="@Icons.Material.Filled.Cancel" 
+                   Color="Color.Error" 
+                   Class="ml-auto" 
+                   data-testid="cancel_information_button"
+                   OnClick="@(() => Cancel())">Cancel</MudButton>
+    </MudCardActions>
+</MudCard>
+
+@code {
+    [Parameter] public Guid Id { get; set; }
+    [Parameter] public Guid CvId { get; set; }
+    
+    private MudForm _form = null!;
+    private readonly CvExperienceFluentValidator _validator = new();
+    private readonly CvExperienceModel _model = new();
+    private string _errorMessage = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var experience = await CvExperienceService.GetByIdAsync(Id);
+        
+        if (experience.Value.Id != Guid.Empty && experience.IsSuccess)
+        {
+            _model.CvId = experience.Value.CvId;
+            _model.StartDate = experience.Value.StartDate;
+            _model.EndDate = experience.Value.EndDate;
+            _model.Company = experience.Value.Company;
+            _model.IsConsultant = experience.Value.IsConsultant;
+            _model.Role = experience.Value.Role;
+            _model.Extent = experience.Value.Extent;
+            _model.Tools = experience.Value.Tools;
+            _model.CompanyNeeds = experience.Value.CompanyNeeds;
+            _model.Mission = experience.Value.Mission;
+        }
+        else
+        {
+            NavigationManager.NavigateTo("/cv", true);
+        }
+    }
+
+    private async Task Submit()
+    {
+        await _form.Validate();
+
+        if (_form.IsValid)
+        {
+            var request = new CvExperienceUpdateRequest(
+                _model.CvId,
+                _model.StartDate!.Value,
+                _model.EndDate,
+                _model.Company,
+                _model.IsConsultant,
+                _model.Role,
+                _model.Extent,
+                _model.Tools,
+                _model.CompanyNeeds,
+                _model.Mission);
+            
+            await CvExperienceService.UpdateAsync(Id, request);
+
+            NavigationManager.NavigateTo($"/cv/{_model.CvId}", true);
+        }
+        else
+        {
+            _errorMessage = "Formuläret innehåller ogiltiga värden. Vänligen kontrollera och försök igen.";
+        }
+    }
+    
+    private void Cancel()
+    {
+        NavigationManager.NavigateTo($"/cv/{_model.CvId}", true);
+    }
+}

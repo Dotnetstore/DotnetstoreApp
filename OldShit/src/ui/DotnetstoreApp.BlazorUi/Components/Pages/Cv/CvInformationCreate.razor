@@ -1,0 +1,91 @@
+﻿@page "/cv/information/add/{CvId:guid}/{InformationType}"
+@using DotnetstoreApp.CV.Information
+@using DotnetstoreApp.SDK.Enums
+@using DotnetstoreApp.SDK.Requests.CV
+@using DotnetstoreApp.SDK.Services
+
+@inject ICvInformationService CvInformationService
+@inject NavigationManager NavigationManager
+
+<PageTitle>Lägg till information</PageTitle>
+
+<MudText Typo="Typo.h3" GutterBottom="true">Lägg till information (@CvHelpers.GetInformationTypeName(_model.InformationType))</MudText>
+
+@if(!string.IsNullOrEmpty(_errorMessage))
+{
+    <MudAlert Severity="Severity.Error" Class="my-2">@_errorMessage</MudAlert>
+}
+
+<MudCard Style="width: 300px;">
+    <MudForm Model="@_model" @ref="@_form" Validation="@_validator.ValidateValue" ValidationDelay="0">
+        <MudCardContent>
+            <MudTextField @bind-Value="_model.Name"
+                          For="@(() => _model.Name)"
+                          data-testid="information_name_textfield"
+                          Immediate="true"
+                          Label="Namn" 
+                          AutoFocus="true" 
+                          MaxLength="@DataSchemeConstants.MaxCvInformationNameLength" />
+        </MudCardContent>
+    </MudForm>
+    <MudCardActions>
+        <MudButton Variant="Variant.Filled" 
+                   StartIcon="@Icons.Material.Filled.Save" 
+                   Color="Color.Primary" 
+                   Class="ml-auto" 
+                   data-testid="save_information_button"
+                   OnClick="@(async () => await Submit())">Save</MudButton>
+        <MudButton Variant="Variant.Filled" 
+                   StartIcon="@Icons.Material.Filled.Cancel" 
+                   Color="Color.Error" 
+                   Class="ml-auto" 
+                   data-testid="cancel_information_button"
+                   OnClick="@(() => Cancel())">Cancel</MudButton>
+    </MudCardActions>
+</MudCard>
+
+@code {
+    [Parameter] public Guid CvId { get; set; }   
+    [Parameter] public string InformationType { get; set; } = string.Empty;
+
+    private string _errorMessage = string.Empty;
+
+    private MudForm _form = null!;
+    private readonly CvInformationFluentValidator _validator = new();
+    private readonly CvInformationModel _model = new();
+    
+    protected override void OnInitialized()
+    {
+        _model.CvId = CvId;
+
+        if (Enum.TryParse<CvInformationType>(InformationType, true, out var enumValue))
+        {
+            _model.InformationType = enumValue;
+        }
+        else
+        {
+            _errorMessage = "Informationstypen är inte korrekt.";
+        }
+    }
+
+    private async Task Submit()
+    {
+        await _form.Validate();
+
+        if (_form.IsValid)
+        {
+            var request = new CvInformationCreateRequest(_model.CvId, _model.Name, _model.InformationType);
+            await CvInformationService.CreateAsync(request);
+            NavigationManager.NavigateTo($"/cv/{CvId}", true);
+        }
+        else
+        {
+            _errorMessage = "Formuläret innehåller ogiltiga värden. Vänligen kontrollera och försök igen.";
+        }
+    }
+
+    private void Cancel()
+    {
+        NavigationManager.NavigateTo($"/cv/{_model.CvId}", true);
+    }
+}

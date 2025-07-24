@@ -1,0 +1,9 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\src\shared\Dotnetstore.Intranet.SDK\Dotnetstore.Intranet.SDK.csproj" />
+    <ProjectReference Include="..\Dotnetstore.Intranet.TestHelper\Dotnetstore.Intranet.TestHelper.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
+  </ItemGroup>
+</Project>

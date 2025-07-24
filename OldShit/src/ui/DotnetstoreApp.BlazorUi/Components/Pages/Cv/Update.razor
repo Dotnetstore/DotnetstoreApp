@@ -1,0 +1,183 @@
+﻿@page "/cv/update/{Id:guid}"
+@using System.Globalization
+@using DotnetstoreApp.CV.Cvs
+@using DotnetstoreApp.SDK.Requests.CV
+@using DotnetstoreApp.SDK.Services
+@using FluentValidation
+@inject NavigationManager NavigationManager
+@inject ICvService CvService
+
+<PageTitle>Uppdatera CV @_model.Name</PageTitle>
+
+<MudText Typo="Typo.h3" GutterBottom="true">Uppdatera CV @_model.Name</MudText>
+
+<MudText Typo="Typo.body1" Class="mb-4">Uppdatera ditt CV här.</MudText>
+
+<MudCard Style="width: 300px;">
+    <MudForm Model="@_model" @ref="@_form" Validation="@_validator.ValidateValue" ValidationDelay="0">
+        <MudCardContent>
+            <MudTextField @bind-Value="_model.Name"
+                          For="@(() => _model.Name)"
+                          data-testid="cv_name_textfield"
+                          Clearable="true"
+                          Immediate="true"
+                          Label="Namn"/>
+            
+            <MudTextField @bind-Value="_model.Language"
+                          For="@(() => _model.Language)"
+                          data-testid="cv_language_textfield"
+                          Clearable="true"
+                          Immediate="true"
+                          Label="Språk"/>
+            
+            <MudTextField @bind-Value="_model.LastName"
+                          For="@(() => _model.LastName)"
+                          data-testid="cv_lastname_textfield"
+                          Clearable="true"
+                          Immediate="true"
+                          Label="Efternamn"/>
+            
+            <MudTextField @bind-Value="_model.FirstName"
+                          For="@(() => _model.FirstName)"
+                          data-testid="cv_firstname_textfield"
+                          Clearable="true"
+                          Immediate="true"
+                          Label="Förnamn"/>
+            
+            <MudDatePicker Date="@_model.DateOfBirth"
+                           data-testid="cv_dateofbirth_picker"
+                           Label="Födelsedatum"
+                           Editable="true"
+                           Clearable="true"
+                           ImmediateText="true"
+                           TextChanged="DatePickerTextChanged"/>
+            
+            <MudTextField @bind-Value="_model.Introduction"
+                          For="@(() => _model.Introduction)"
+                          data-testid="cv_introduction_textfield"
+                          Clearable="true"
+                          Lines="5"
+                          Immediate="true"
+                          Label="Introduktion"/>
+        </MudCardContent>
+    </MudForm>
+    <MudCardActions>
+        <MudButton Variant="Variant.Filled" 
+                   StartIcon="@Icons.Material.Filled.Save" 
+                   Color="Color.Primary" 
+                   data-testid="cv_save_button" 
+                   Class="ml-auto" 
+                   OnClick="@(async () => await Submit())">Save</MudButton>
+    </MudCardActions>
+</MudCard>
+
+@code {
+    [Parameter] public Guid Id { get; set; }
+    private MudForm _form = null!;
+    private readonly UpdateCvFluentValidator _validator = new();
+    private readonly UpdateCvModel _model = new();
+    
+    private void DatePickerTextChanged(string? value)
+    {
+        if (value == null || value.Length < 6)
+        {
+            _model.DateOfBirth = null;
+        }
+        else
+        {
+            string[] formats = { "yyyy-MM-dd" };
+            if (DateTime.TryParseExact(value, formats, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime validDate))
+            {
+                _model.DateOfBirth = validDate;
+            }
+            else
+            {
+                _model.DateOfBirth = null;
+            }
+        }
+    }
+    
+    protected override async Task OnInitializedAsync()
+    {
+        var cv = await CvService.GetByIdAsync(Id);
+        if (cv.Value.Id != Guid.Empty && cv.IsSuccess)
+        {
+            _model.Name = cv.Value.Name;
+            _model.Language = cv.Value.Language;
+            _model.LastName = cv.Value.LastName;
+            _model.FirstName = cv.Value.FirstName;
+            _model.DateOfBirth = cv.Value.DateOfBirth;
+            _model.Introduction = cv.Value.Introduction;
+        }
+        else
+        {
+            NavigationManager.NavigateTo("/cv");
+        }
+    }
+    
+    private async Task Submit()
+    {
+        await _form.Validate();
+
+        if (_form.IsValid)
+        {
+            var request = new CvUpdateRequest(_model.Name, _model.Language, _model.LastName, _model.FirstName, _model.DateOfBirth!.Value, _model.Introduction);
+
+            var result = await CvService.UpdateAsync(Id, request);
+
+            if (result.IsSuccess)
+            {
+                NavigationManager.NavigateTo("/cv");
+            }
+        }
+    }
+    
+    internal sealed class UpdateCvModel
+    {
+        public string Name { get; set; } = string.Empty;
+        public string Language { get; set; } = string.Empty;
+        public string LastName { get; set; } = string.Empty;
+        public string FirstName { get; set; } = string.Empty;
+        public DateTime? DateOfBirth { get; set; }
+        public string Introduction { get; set; } = string.Empty;
+    }
+    
+    internal sealed class UpdateCvFluentValidator : AbstractValidator<UpdateCvModel>
+    {
+        public UpdateCvFluentValidator()
+        {
+            RuleFor(c => c.Name)
+                .NotNull().NotEmpty().WithMessage("Name is required.")
+                .MaximumLength(DataSchemeConstants.MaxCvNameLength).WithMessage($"Name must not exceed {DataSchemeConstants.MaxCvNameLength} characters.");
+        
+            RuleFor(c => c.Language)
+                .NotNull().NotEmpty().WithMessage("Language is required.")
+                .MaximumLength(DataSchemeConstants.MaxCvLanguageLength).WithMessage($"Language must not exceed {DataSchemeConstants.MaxCvLanguageLength} characters.");
+        
+            RuleFor(c => c.LastName)  
+                .NotNull().NotEmpty().WithMessage("Last name is required.")
+                .MaximumLength(DataSchemeConstants.MaxCvLastNameLength).WithMessage($"Last name must not exceed {DataSchemeConstants.MaxCvLastNameLength} characters.");
+        
+            RuleFor(c => c.FirstName)
+                .NotNull().NotEmpty().WithMessage("First name is required.")
+                .MaximumLength(DataSchemeConstants.MaxCvFirstNameLength).WithMessage($"First name must not exceed {DataSchemeConstants.MaxCvFirstNameLength} characters.");
+        
+            RuleFor(c => c.DateOfBirth)
+                .NotNull().WithMessage("Date of birth is required.")
+                .LessThan(DateTime.UtcNow.AddYears(-15)).WithMessage("Date of birth must be in the past.")
+                .GreaterThan(DateTime.UtcNow.AddYears(-70)).WithMessage("Date of birth must be within the last 70 years.");
+        
+            RuleFor(c => c.Introduction)
+                .NotNull().NotEmpty().WithMessage("Introduction is required.")
+                .MaximumLength(DataSchemeConstants.MaxCvIntroductionLength).WithMessage($"Introduction must not exceed {DataSchemeConstants.MaxCvIntroductionLength} characters.");
+        }
+
+        public Func<object, string, Task<IEnumerable<string>>> ValidateValue => async (model, propertyName) =>
+        {
+            var result = await ValidateAsync(ValidationContext<UpdateCvModel>.CreateWithOptions((UpdateCvModel)model, x => x.IncludeProperties(propertyName)));
+            if (result.IsValid)
+                return [];
+            return result.Errors.Select(e => e.ErrorMessage);
+        };
+    }
+}

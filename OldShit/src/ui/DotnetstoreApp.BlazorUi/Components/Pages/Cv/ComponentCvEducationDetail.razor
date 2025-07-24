@@ -1,0 +1,117 @@
+﻿@using DotnetstoreApp.CV.Educations
+@using DotnetstoreApp.SDK.Responses.CV
+
+@inject ICvEducationService CvEducationService
+@inject NavigationManager NavigationManager
+
+@if(CvEducationResponses.Count < 1)
+{
+    <MudCard>
+        <MudCardHeader>
+            <MudText Typo="Typo.h5" Class="mb-4">Utbildning</MudText>
+        </MudCardHeader>
+        <MudCardContent>
+            <MudText Typo="Typo.body1">Du har inte registrerat någon utbildning än. Klicka på "Lägg till" för att börja.</MudText>
+        </MudCardContent>
+        <MudCardActions>
+            <MudButton Color="Color.Success" 
+                       StartIcon="@Icons.Material.Filled.Add" 
+                       data-testid="add_education_button"
+                       Variant="Variant.Filled" 
+                       OnClick="@(() => AddEducation())">
+                Lägg till
+            </MudButton>
+        </MudCardActions>
+    </MudCard>  
+}
+else
+{
+    <MudDivider/>
+    <MudCard>
+        <MudCardHeader>
+            <MudText Typo="Typo.h5" Class="mb-4">Utbildning</MudText>
+        </MudCardHeader>
+        <MudCardContent>
+            <MudTable Items="@CvEducationResponses.OrderByDescending(x => x.EndDate).ThenByDescending(x => x.StartDate)">
+                <RowTemplate>
+                    <MudTd>
+                        <MudSimpleTable>
+                            <tbody>
+                            <tr>
+                                <td style="width: 300px;"><MudText Typo="Typo.h5">@context.School</MudText></td>
+                                <td style="width: 300px;">
+                                    <MudButton Color="Color.Warning" 
+                                               StartIcon="@Icons.Material.Filled.Edit" 
+                                               data-testid="update_education_button"
+                                               data-id="@context.School"
+                                               Variant="Variant.Filled" 
+                                               OnClick="@(() => UpdateEducation(context))">
+                                        Redigera
+                                    </MudButton>
+                                </td>
+                                <td style="width: 300px;">
+                                    <MudButton Color="Color.Error" 
+                                               StartIcon="@Icons.Material.Filled.Delete" 
+                                               data-testid="delete_education_button"
+                                               data-id="@context.School"
+                                               Variant="Variant.Filled" 
+                                               OnClick="@(async () => await DeleteEducation(context))">
+                                        Radera
+                                    </MudButton>
+                                </td>
+                                <td></td>
+                            </tr>
+                            </tbody>
+                        </MudSimpleTable>
+                        <MudSimpleTable>
+                            <tbody>
+                            <tr>
+                                <td style="width: 300px;"><MudText Typo="Typo.button">Nivå</MudText></td>
+                                <td><MudText Typo="Typo.body2">@context.Level</MudText></td>
+                            </tr>
+                            </tbody>
+                        </MudSimpleTable>
+                        <MudSimpleTable>
+                            <tbody>
+                            <tr>
+                                <td style="width: 300px;"><MudText Typo="Typo.button">Tidsperiod</MudText></td>
+                                <td><MudText Typo="Typo.body2">@context.StartDate.ToShortDateString() - @context.EndDate?.ToShortDateString()</MudText></td>
+                            </tr>
+                            </tbody>
+                        </MudSimpleTable>
+                    </MudTd>
+                </RowTemplate>
+            </MudTable>
+        </MudCardContent>
+        <MudCardActions>
+            <MudButton Color="Color.Success" 
+                       StartIcon="@Icons.Material.Filled.Add" 
+                       data-testid="add_education_button"
+                       Variant="Variant.Filled" 
+                       OnClick="@(() => AddEducation())">
+                Lägg till
+            </MudButton>
+        </MudCardActions>
+    </MudCard>
+}
+
+@code {
+    [Parameter] public Guid Id { get; set; }
+    [Parameter] public List<CvEducationResponse> CvEducationResponses { get; set; } = [];
+
+    private void AddEducation()
+    {
+        NavigationManager.NavigateTo($"/cv/education/add/{Id}");
+    }
+
+    private void UpdateEducation(CvEducationResponse context)
+    {
+        NavigationManager.NavigateTo($"/cv/education/update/{context.Id}/{Id}");
+    }
+
+    private async ValueTask DeleteEducation(CvEducationResponse context)
+    {
+        await CvEducationService.DeleteAsync(context.Id);
+        NavigationManager.NavigateTo($"/cv/{context.CvId}", true);
+    }
+}

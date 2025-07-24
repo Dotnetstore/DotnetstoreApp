@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\src\api\DotnetstoreApp.SDK\DotnetstoreApp.SDK.csproj" />
+      <ProjectReference Include="..\DotnetstoreApp.TestHelper\DotnetstoreApp.TestHelper.csproj" />
+    </ItemGroup>
+
+</Project>

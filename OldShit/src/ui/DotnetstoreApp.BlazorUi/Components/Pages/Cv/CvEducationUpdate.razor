@@ -1,0 +1,115 @@
+﻿@page "/cv/education/update/{Id:guid}/{CvId:guid}"
+@using DotnetstoreApp.CV.Educations
+@using DotnetstoreApp.SDK.Requests.CV
+
+@inject ICvEducationService CvEducationService
+@inject NavigationManager NavigationManager
+
+<PageTitle>Uppdatera utbildning</PageTitle>
+
+<MudText Typo="Typo.h3" GutterBottom="true">Uppdatera utbildning</MudText>
+
+@if(!string.IsNullOrEmpty(_errorMessage))
+{
+    <MudAlert Severity="Severity.Error" Class="my-2">@_errorMessage</MudAlert>
+}
+
+<MudCard>
+    <MudForm Model="@_model" @ref="@_form" Validation="@_validator.ValidateValue" ValidationDelay="0">
+        <MudCardContent>
+            <MudDatePicker @bind-Date="_model.StartDate"
+                           For="@(() => _model.StartDate)"
+                           data-testid="startdate_textfield"
+                           Editable="true"
+                           Label="Startdatum"/>
+            
+            <MudDatePicker @bind-Date="_model.EndDate"
+                           For="@(() => _model.EndDate)"
+                           data-testid="enddate_textfield"
+                           Editable="true"
+                           Label="Slutdatum"/>
+
+            <MudTextField @bind-Value="_model.School"
+                          For="@(() => _model.School)"
+                          data-testid="school_textfield"
+                          Immediate="true"
+                          Label="Skola"/>
+
+            <MudTextField @bind-Value="_model.Level"
+                          For="@(() => _model.Level)"
+                          data-testid="level_textfield"
+                          Immediate="true"
+                          Label="Nivå"/>
+        </MudCardContent>
+    </MudForm>
+    <MudCardActions>
+        <MudButton Variant="Variant.Filled" 
+                   StartIcon="@Icons.Material.Filled.Save" 
+                   data-testid="save_education_button"
+                   Color="Color.Primary" 
+                   Class="ml-auto" 
+                   OnClick="@(async () => await Submit())">Save</MudButton>
+        <MudButton Variant="Variant.Filled" 
+                   StartIcon="@Icons.Material.Filled.Cancel" 
+                   Color="Color.Error" 
+                   Class="ml-auto" 
+                   data-testid="cancel_information_button"
+                   OnClick="@(() => Cancel())">Cancel</MudButton>
+    </MudCardActions>
+</MudCard>
+
+@code {
+    [Parameter] public Guid Id { get; set; }
+    [Parameter] public Guid CvId { get; set; }
+    
+    private MudForm _form = null!;
+    private readonly CvEducationFluentValidator _validator = new();
+    private readonly CvEducationModel _model = new();
+    private string _errorMessage = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var education = await CvEducationService.GetByIdAsync(Id);
+
+        if (education.Value.Id != Guid.Empty && education.IsSuccess)
+        {
+            _model.CvId = education.Value.CvId;
+            _model.StartDate = education.Value.StartDate;
+            _model.EndDate = education.Value.EndDate;
+            _model.School = education.Value.School;
+            _model.Level = education.Value.Level;
+        }
+        else
+        {
+            NavigationManager.NavigateTo("/cv", true);
+        }
+    }
+
+    private async Task Submit()
+    {
+        await _form.Validate();
+
+        if (_form.IsValid)
+        {
+            var request = new CvEducationUpdateRequest(
+                _model.CvId,
+                _model.School,
+                _model.Level,
+                _model.StartDate!.Value,
+                _model.EndDate);
+            
+            await CvEducationService.UpdateAsync(Id, request);
+
+            NavigationManager.NavigateTo($"/cv/{_model.CvId}", true);
+        }
+        else
+        {
+            _errorMessage = "Formuläret innehåller ogiltiga värden. Vänligen kontrollera och försök igen.";
+        }
+    }
+    
+    private void Cancel()
+    {
+        NavigationManager.NavigateTo($"/cv/{_model.CvId}", true);
+    }
+}

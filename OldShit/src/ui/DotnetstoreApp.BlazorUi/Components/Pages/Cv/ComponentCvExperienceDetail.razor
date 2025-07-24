@@ -1,0 +1,139 @@
+﻿@using DotnetstoreApp.CV.Experiences
+@using DotnetstoreApp.SDK.Responses.CV
+
+@inject ICvExperienceService CvExperienceService
+@inject NavigationManager NavigationManager
+
+
+<MudCard>
+    <MudCardHeader><MudText Typo="Typo.h5" Class="mb-4">Arbetslivserfarenhet</MudText></MudCardHeader>
+    <MudCardContent>
+        @if (CvExperienceResponses.Count < 1)
+        {
+            <MudText Typo="Typo.body2">Du har inte registrerat någon arbetslivserfarenhet än. Klicka på "Lägg till" för att börja.</MudText>
+        }
+        else
+        {
+             <MudTable Items="@CvExperienceResponses.OrderByDescending(x => x.EndDate).ThenByDescending(x => x.StartDate)">
+                 <RowTemplate>
+                     <MudTd>
+                         <MudSimpleTable>
+                             <tbody>
+                             <tr>
+                                 <td style="width: 300px;"><MudText Typo="Typo.h5">@context.Company</MudText></td>
+                                 <td style="width: 300px;">
+                                     <MudButton Color="Color.Warning"
+                                                StartIcon="@Icons.Material.Filled.Edit"
+                                                Variant="Variant.Filled"
+                                                data-testid="update_experience_button"
+                                                data-id="@context.Company"
+                                                OnClick="@(() => UpdateExperience(context))">
+                                         Redigera
+                                     </MudButton>
+                                 </td>
+                                 <td style="width: 300px;">
+                                     <MudButton Color="Color.Error"
+                                                StartIcon="@Icons.Material.Filled.Delete"
+                                                Variant="Variant.Filled"
+                                                data-testid="delete_experience_button"
+                                                data-id="@context.Company"
+                                                OnClick="@(async () => await DeleteExperience(context))">
+                                         Radera
+                                     </MudButton>
+                                 </td>
+                                 <td></td>
+                             </tr>
+                             </tbody>
+                         </MudSimpleTable>
+                         <MudSimpleTable>
+                             <tbody>
+                             <tr>
+                                 <td style="width: 300px;"><MudText Typo="Typo.button">Roll</MudText></td>
+                                 <td><MudText Typo="Typo.body2">@context.Role</MudText></td>
+                             </tr>
+                             </tbody>
+                         </MudSimpleTable>
+                         <MudSimpleTable>
+                             <tbody>
+                             <tr>
+                                 <td style="width: 300px;"><MudText Typo="Typo.button">Tidsperiod</MudText></td>
+                                 <td><MudText Typo="Typo.body2">@context.StartDate.ToShortDateString() - @context.EndDate?.ToShortDateString()</MudText></td>
+                             </tr>
+                             </tbody>
+                         </MudSimpleTable>
+                         <MudSimpleTable>
+                             <tbody>
+                             <tr>
+                                 <td style="width: 300px;"><MudText Typo="Typo.button">Omfattning</MudText></td>
+                                 <td><MudText Typo="Typo.body2">@context.Extent%</MudText></td>
+                             </tr>
+                             </tbody>
+                         </MudSimpleTable>
+                         <MudSimpleTable>
+                             <tbody>
+                             <tr>
+                                 <td style="width: 300px;"><MudText Typo="Typo.button">Konsultuppdrag</MudText></td>
+                                 <td><MudText Typo="Typo.body2">@context.IsConsultant</MudText></td>
+                             </tr>
+                             </tbody>
+                         </MudSimpleTable>
+                         <MudSimpleTable>
+                             <tbody>
+                             <tr>
+                                 <td style="width: 300px;"><MudText Typo="Typo.button">Metoder & verktyg</MudText></td>
+                                 <td><MudText Typo="Typo.body2">@context.Tools</MudText></td>
+                             </tr>
+                             </tbody>
+                         </MudSimpleTable>
+                         <MudSimpleTable>
+                             <tbody>
+                             <tr>
+                                 <td style="width: 300px;"><MudText Typo="Typo.button">Företagets behov</MudText></td>
+                                 <td><MudText Typo="Typo.body2">@context.CompanyNeeds</MudText></td>
+                             </tr>
+                             </tbody>
+                         </MudSimpleTable>
+                         <MudSimpleTable>
+                             <tbody>
+                             <tr>
+                                 <td style="width: 300px;"><MudText Typo="Typo.button">Uppdrag</MudText></td>
+                                 <td><MudText Typo="Typo.body2">@context.Mission</MudText></td>
+                             </tr>
+                             </tbody>
+                         </MudSimpleTable>
+                     </MudTd>
+                 </RowTemplate>
+             </MudTable>
+        }
+    </MudCardContent>
+    <MudCardActions>
+        <MudButton Color="Color.Success"
+                   StartIcon="@Icons.Material.Filled.Add"
+                   Variant="Variant.Filled"
+                   data-testid="add_experience_button"
+                   OnClick="@(() => AddExperience())">
+            Lägg till
+        </MudButton>
+    </MudCardActions>
+</MudCard>
+
+@code {
+    [Parameter] public Guid Id { get; set; }
+    [Parameter] public List<CvExperienceResponse> CvExperienceResponses { get; set; } = [];
+
+    private void AddExperience()
+    {
+        NavigationManager.NavigateTo($"/cv/experience/add/{Id}");
+    }
+
+    private void UpdateExperience(CvExperienceResponse context)
+    {
+        NavigationManager.NavigateTo($"/cv/experience/update/{context.Id}/{Id}");
+    }
+
+    private async ValueTask DeleteExperience(CvExperienceResponse context)
+    {
+        await CvExperienceService.DeleteAsync(context.Id);
+        NavigationManager.NavigateTo($"/cv/{context.CvId}", true);
+    }
+}

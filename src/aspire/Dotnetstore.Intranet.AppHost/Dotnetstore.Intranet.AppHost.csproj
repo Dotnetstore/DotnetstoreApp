@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <Sdk Name="Aspire.AppHost.Sdk" Version="9.3.1"/>
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Aspire.Hosting.AppHost" Version="9.3.1"/>
+        <PackageReference Include="Aspire.Hosting.PostgreSQL" Version="9.3.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\api\Dotnetstore.Intranet.WebApi\Dotnetstore.Intranet.WebApi.csproj" />
+    </ItemGroup>
+
+</Project>
