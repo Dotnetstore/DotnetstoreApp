@@ -44,5 +44,11 @@ public class ApplicationUserBuilderTests
         user.DeletedDate.ShouldBeNull();
         user.IsSystem.ShouldBeFalse();
         user.IsGdpr.ShouldBeFalse();
+        user.AccountIsApproved.ShouldBeFalse();
+        user.EmailAddressConfirmationCode.ShouldBeNull();
+        user.EmailAddressIsConfirmed.ShouldBeFalse();
+        user.RefreshToken.ShouldBeNull();
+        user.RefreshTokenExpiryTime.ShouldBeNull();
+        user.ConcurrencyToken.ShouldBeNull();
     }
 }

@@ -1,11 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <TargetFramework>net9.0</TargetFramework>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
-    </PropertyGroup>
-
     <ItemGroup>
       <ProjectReference Include="..\..\..\src\api\Dotnetstore.Intranet.SharedKernel\Dotnetstore.Intranet.SharedKernel.csproj" />
       <ProjectReference Include="..\..\shared\Dotnetstore.Intranet.TestHelper\Dotnetstore.Intranet.TestHelper.csproj" />

@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <ItemGroup>
+      <ProjectReference Include="..\Dotnetstore.Intranet.Email\Dotnetstore.Intranet.Email.csproj" />
       <ProjectReference Include="..\Dotnetstore.Intranet.SharedKernel\Dotnetstore.Intranet.SharedKernel.csproj" />
     </ItemGroup>
 

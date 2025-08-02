@@ -7,13 +7,13 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Aspire.Hosting.AppHost" Version="9.3.1"/>
-        <PackageReference Include="Aspire.Hosting.PostgreSQL" Version="9.3.1" />
+        <PackageReference Include="Aspire.Hosting.AppHost" Version="9.4.0" />
+        <PackageReference Include="Aspire.Hosting.PostgreSQL" Version="9.4.0" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\..\api\Dotnetstore.Intranet.WebApi\Dotnetstore.Intranet.WebApi.csproj" />
-      <ProjectReference Include="..\..\ui\Dotnetstore.Intranet.WebUi\Dotnetstore.Intranet.WebUi.csproj" />
+      <ProjectReference Include="..\..\ui\Dotnetstore.Intranet.Web\Dotnetstore.Intranet.Web.csproj" />
     </ItemGroup>
 
 </Project>

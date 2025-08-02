@@ -8,7 +8,7 @@ var webApi = builder.AddProject<Projects.Dotnetstore_Intranet_WebApi>("webapi")
     .WithReference(postgres)
     .WaitFor(postgres);
 
-var webUi = builder.AddProject<Projects.Dotnetstore_Intranet_WebUi>("webui")
+var webUi = builder.AddProject<Projects.Dotnetstore_Intranet_Web>("webui")
     .WithReference(webApi)
     .WaitFor(webApi);
 

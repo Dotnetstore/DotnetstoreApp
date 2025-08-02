@@ -133,4 +133,15 @@ public class ApplicationUserConfigurationTests
         passwordHashProperty.GetMaxLength().ShouldBe(DataSchemeConstants.UserPasswordMaxLength);
         passwordHashProperty.IsUnicode()!.Value.ShouldBeFalse();
     }
+    
+    [Fact]
+    public void ApplicationUserConfiguration_Should_ImplementEmailAddressConfirmationCodeCorrect()
+    {
+        // Assert
+        var confirmationCodeProperty = _entityType.FindProperty(nameof(ApplicationUser.EmailAddressConfirmationCode));
+        confirmationCodeProperty.ShouldNotBeNull();
+        confirmationCodeProperty.IsNullable.ShouldBeTrue();
+        confirmationCodeProperty.GetMaxLength().ShouldBe(DataSchemeConstants.UserEmailConfirmationCodeMaxLength);
+        confirmationCodeProperty.IsUnicode()!.Value.ShouldBeFalse();
+    }
 }

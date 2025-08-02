@@ -14,7 +14,10 @@
 <MudText Typo="Typo.body1" Class="mb-4">Skapa ett nytt CV här.</MudText>
 
 <MudCard Style="width: 300px;">
-    <MudForm Model="@_model" @ref="@_form" Validation="@_validator.ValidateValue" ValidationDelay="0">
+    <MudForm Model="@_model" 
+             @ref="@_form" 
+             Validation="@_validator.ValidateValue" 
+             ValidationDelay="0">
         <MudCardContent>
             <MudTextField @bind-Value="_model.Name"
                           For="@(() => _model.Name)"

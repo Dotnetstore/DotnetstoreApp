@@ -1,5 +1,4 @@
-﻿using Dotnetstore.Intranet.Organization.Users.GetById;
-using Dotnetstore.Intranet.SDK.Requests.Organization.Users;
+﻿using Dotnetstore.Intranet.SDK.Requests.Organization.Users;
 using Dotnetstore.Intranet.SDK.Services;
 using FastEndpoints;
 using FastEndpoints.Swagger;
@@ -16,7 +15,7 @@ internal sealed class ApplicationUserCreateEndpoint(
     {
         Post(ApiEndpoints.Organization.ApplicationUser.Create);
         Description(x => x
-            .Produces(StatusCodes.Status201Created)
+            .Produces(StatusCodes.Status200OK)
             .ProducesProblemDetails()
             .AutoTagOverride("Application Users"));
         Summary(s =>
@@ -40,6 +39,7 @@ internal sealed class ApplicationUserCreateEndpoint(
             return;
         }
 
-        await Send.CreatedAtAsync<ApplicationUserGetByIdEndpoint>(new { id = result.Value.Id }, "User created successfully.", cancellation: ct).ConfigureAwait(false);
+        await Send.OkAsync(StatusCodes.Status200OK, ct);
+        // await Send.CreatedAtAsync<ApplicationUserGetByIdEndpoint>(new { id = result.Value.Id }, "User created successfully.", cancellation: ct).ConfigureAwait(false);
     }
 }

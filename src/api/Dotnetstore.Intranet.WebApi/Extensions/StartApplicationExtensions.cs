@@ -1,8 +1,10 @@
-﻿using Dotnetstore.Intranet.Organization.Data;
+﻿using Dotnetstore.Intranet.Email.Extensions;
+using Dotnetstore.Intranet.Organization.Data;
 using Dotnetstore.Intranet.Organization.Extensions;
+using Dotnetstore.Intranet.Organization.Services;
+using Dotnetstore.Intranet.SDK.Models;
 using Dotnetstore.Intranet.ServiceDefaults;
 using Dotnetstore.Intranet.SharedKernel.Extensions;
-using Dotnetstore.Intranet.SharedKernel.Models;
 using FastEndpoints;
 using FastEndpoints.Security;
 using FastEndpoints.Swagger;
@@ -15,23 +17,28 @@ internal static class StartApplicationExtensions
         this WebApplicationBuilder builder,
         CancellationToken cancellationToken = default)
     {
-        RegisterServices(builder);
-        var app = BuildApplication(builder);
-        RegisterMiddlewares(app);
-        await RunAsync(app, cancellationToken);
+        await builder
+            .RegisterServices()
+            .BuildApplication()
+            .RegisterMiddlewares()
+            .RunApplicationAsync(cancellationToken);
     }
     
-    private static void RegisterServices(WebApplicationBuilder builder)
+    private static WebApplicationBuilder RegisterServices(this WebApplicationBuilder builder)
     {
         builder
             .AddServiceDefaults()
             .AddNpgsqlDbContext<OrganizationDataContext>(connectionName: "DotnetstoreIntranet");
+        
+        var appSettings = builder.Configuration.GetSection("AppSettings").Get<AppSettings>();
+        ArgumentNullException.ThrowIfNull(appSettings, nameof(appSettings));
 
         builder.Services
-            .Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"))
             .RegisterSharedKernelServices()
+            .RegisterEmailServices()
             .RegisterOrganizationServices()
             .AddSingleton(TimeProvider.System)
+            .AddSingleton(appSettings)
             .AddAuthenticationJwtBearer(s =>
             {
                 s.SigningKey = "SecretKeyForJwtAuthentication";
@@ -47,16 +54,19 @@ internal static class StartApplicationExtensions
                     s.Description = "API for the Dotnetstore Intranet application.";
                 };
             });
+        
+        return builder;
     }
     
-    private static WebApplication BuildApplication(WebApplicationBuilder builder)
+    private static WebApplication BuildApplication(this WebApplicationBuilder builder)
     {
         return builder.Build();
     }
     
-    private static void RegisterMiddlewares(WebApplication app)
+    private static WebApplication RegisterMiddlewares(this WebApplication app)
     {
         app
+            .UseMiddleware<RefreshTokenMiddleware>()
             .UseAuthentication()
             .UseAuthorization()
             .UseHttpsRedirection()
@@ -65,10 +75,12 @@ internal static class StartApplicationExtensions
                 c.Errors.UseProblemDetails();
             })
             .UseSwaggerGen();
+
+        return app;
     }
     
-    private static async ValueTask RunAsync(
-        WebApplication app, 
+    private static async ValueTask RunApplicationAsync(
+        this WebApplication app, 
         CancellationToken cancellationToken)
     {
         await app.RunAsync(cancellationToken).ConfigureAwait(false);

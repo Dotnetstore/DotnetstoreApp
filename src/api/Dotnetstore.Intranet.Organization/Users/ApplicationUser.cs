@@ -22,7 +22,10 @@ public class ApplicationUser : PersonIdentity<ApplicationUserId>
         Guid? deletedBy = null,
         DateTime? deletedDate = null,
         bool isSystem = false,
-        bool isGdpr = false) : base(id)
+        bool isGdpr = false,
+        bool emailAddressIsConfirmed = false,
+        string? emilAddressConfirmationCode = null,
+        bool accountIsApproved = false) : base(id)
     {
         LastName = lastName;
         FirstName = firstName;
@@ -41,6 +44,9 @@ public class ApplicationUser : PersonIdentity<ApplicationUserId>
         DeletedDate = deletedDate;
         IsSystem = isSystem;
         IsGdpr = isGdpr;
+        EmailAddressIsConfirmed = emailAddressIsConfirmed;
+        EmailAddressConfirmationCode = emilAddressConfirmationCode;
+        AccountIsApproved = accountIsApproved;
     }
     
     internal static ApplicationUser Create(
@@ -61,7 +67,10 @@ public class ApplicationUser : PersonIdentity<ApplicationUserId>
         Guid? deletedBy = null,
         DateTime? deletedDate = null,
         bool isSystem = false,
-        bool isGdpr = false)
+        bool isGdpr = false,
+        bool emailAddressIsConfirmed = false,
+        string? emilAddressConfirmationCode = null,
+        bool accountIsApproved = false)
     {
         return new ApplicationUser(
             id,
@@ -81,7 +90,10 @@ public class ApplicationUser : PersonIdentity<ApplicationUserId>
             deletedBy,
             deletedDate,
             isSystem,
-            isGdpr);
+            isGdpr,
+            emailAddressIsConfirmed,
+            emilAddressConfirmationCode,
+            accountIsApproved);
     }
     
     internal static ApplicationUser Create(
@@ -101,7 +113,10 @@ public class ApplicationUser : PersonIdentity<ApplicationUserId>
         Guid? deletedBy = null,
         DateTime? deletedDate = null,
         bool isSystem = false,
-        bool isGdpr = false)
+        bool isGdpr = false,
+        bool emailAddressIsConfirmed = false,
+        string? emilAddressConfirmationCode = null,
+        bool accountIsApproved = false)
     {
         return new ApplicationUser(
             ApplicationUserId.Create(),
@@ -121,6 +136,9 @@ public class ApplicationUser : PersonIdentity<ApplicationUserId>
             deletedBy,
             deletedDate,
             isSystem,
-            isGdpr);
+            isGdpr,
+            emailAddressIsConfirmed,
+            emilAddressConfirmationCode,
+            accountIsApproved);
     }
 }

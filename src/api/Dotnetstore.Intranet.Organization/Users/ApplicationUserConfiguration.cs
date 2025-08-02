@@ -66,5 +66,11 @@ internal sealed class ApplicationUserConfiguration : IEntityTypeConfiguration<Ap
             .IsRequired()
             .HasMaxLength(DataSchemeConstants.UserPasswordMaxLength)
             .IsUnicode(false);
+
+        builder
+            .Property(x => x.EmailAddressConfirmationCode)
+            .IsRequired(false)
+            .HasMaxLength(DataSchemeConstants.UserEmailConfirmationCodeMaxLength)
+            .IsUnicode(false);
     }
 }

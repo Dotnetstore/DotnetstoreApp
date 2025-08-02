@@ -33,6 +33,9 @@ internal sealed class ApplicationUserBuilder :
     private DateTime? _deletedDate;
     private bool _isSystem;
     private bool _isGdpr;
+    private bool _emailAddressIsConfirmed;
+    private string? _emailAddressConfirmationCode;
+    private bool _accountIsApproved;
 
     private ApplicationUserBuilder()
     {
@@ -197,6 +200,29 @@ internal sealed class ApplicationUserBuilder :
         return this;
     }
 
+    IBaseInformation IBaseInformation.WithEmailAddressIsConfirmed(bool emailAddressIsConfirmed)
+    {
+        _emailAddressIsConfirmed = emailAddressIsConfirmed;
+        return this;
+    }
+
+    IBaseInformation IBaseInformation.WithEmailAddressConfirmationCode(string? emailAddressConfirmationCode)
+    {
+        if (!string.IsNullOrEmpty(emailAddressConfirmationCode))
+        {
+            Guard.Against.StringTooLong(emailAddressConfirmationCode, DataSchemeConstants.UserEmailConfirmationCodeMaxLength, nameof(emailAddressConfirmationCode),
+                $"Email address confirmation code cannot be longer than {DataSchemeConstants.UserEmailConfirmationCodeMaxLength} characters.");
+        }
+        _emailAddressConfirmationCode = emailAddressConfirmationCode;
+        return this;
+    }
+
+    IBaseInformation IBaseInformation.WithAccountIsApproved(bool accountIsApproved)
+    {
+        _accountIsApproved = accountIsApproved;
+        return this;
+    }
+
     ApplicationUser IBaseInformation.Build()
     {
         return ApplicationUser.Create(
@@ -217,7 +243,10 @@ internal sealed class ApplicationUserBuilder :
             _deletedBy,
             _deletedDate,
             _isSystem,
-            _isGdpr);
+            _isGdpr,
+            _emailAddressIsConfirmed,
+            _emailAddressConfirmationCode,
+            _accountIsApproved);
     }
 }
 
@@ -278,5 +307,8 @@ internal interface IBaseInformation
     IBaseInformation WithDeletedDate(DateTime? deletedDate = null);
     IBaseInformation WithIsSystem(bool isSystem = false);
     IBaseInformation WithIsGdpr(bool isGdpr = false);
+    IBaseInformation WithEmailAddressIsConfirmed(bool emailAddressIsConfirmed = false);
+    IBaseInformation WithEmailAddressConfirmationCode(string? emailAddressConfirmationCode = null);
+    IBaseInformation WithAccountIsApproved(bool accountIsApproved = false);
     ApplicationUser Build();
 }

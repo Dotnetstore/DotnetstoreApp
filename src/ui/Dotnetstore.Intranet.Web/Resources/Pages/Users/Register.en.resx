@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+            
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="Register" xml:space="preserve">
+        <value>Register</value>
+    </data>
+    <data name="RegisterNewAccount" xml:space="preserve">
+        <value>Register a new account here.</value>
+    </data>
+    <data name="RegisterInformation" xml:space="preserve">
+        <value>Here you can register a new account. If you are the first user, all you need to do is confirm your email address and the account will be activated. Otherwise, the administrator must approve the account after you confirm your email address before you can use it.</value>
+    </data>
+    <data name="AlreadyHaveAnAccount" xml:space="preserve">
+        <value>Already have an account?</value>
+    </data>
+    <data name="LoginToYourAccount" xml:space="preserve">
+        <value>Login to your account</value>
+    </data>
+    <data name="Login" xml:space="preserve">
+        <value>Login</value>
+    </data>
+    <data name="BackToStart" xml:space="preserve">
+        <value>Back to start</value>
+    </data>
+    <data name="Password" xml:space="preserve">
+        <value>Password</value>
+    </data>
+    <data name="ConfirmPassword" xml:space="preserve">
+        <value>Confirm password</value>
+    </data>
+    <data name="DateOfBirth" xml:space="preserve">
+        <value>Date of birth</value>
+    </data>
+    <data name="EmailAddress" xml:space="preserve">
+        <value>Email address</value>
+    </data>
+    <data name="FirstName" xml:space="preserve">
+        <value>First name</value>
+    </data>
+    <data name="IsMale" xml:space="preserve">
+        <value>Is male?</value>
+    </data>
+    <data name="LastName" xml:space="preserve">
+        <value>Last name</value>
+    </data>
+    <data name="MiddleName" xml:space="preserve">
+        <value>Middle name</value>
+    </data>
+    <data name="SocialSecurityNumber" xml:space="preserve">
+        <value>Social security number</value>
+    </data>
+    <data name="Save" xml:space="preserve">
+        <value>Save</value>
+    </data>
+</root>
