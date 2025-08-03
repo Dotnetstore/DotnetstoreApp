@@ -59,4 +59,16 @@ public class DataSchemeConstantsTests
     {
         DataSchemeConstants.UserDateOfBirthMax.ShouldBe(-15);
     }
+
+    [Fact]
+    public void UserRoleNameMaxLength_Should_Be50()
+    {
+        DataSchemeConstants.UserRoleNameMaxLength.ShouldBe(50);
+    }
+
+    [Fact]
+    public void UserRoleNameDescriptionLength_Should_Be200()
+    {
+        DataSchemeConstants.UserRoleNameDescriptionLength.ShouldBe(200);
+    }
 }

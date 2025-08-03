@@ -1,4 +1,5 @@
-﻿using Dotnetstore.Intranet.Organization.Users;
+﻿using Dotnetstore.Intranet.Organization.Roles;
+using Dotnetstore.Intranet.Organization.Users;
 using FastEndpoints;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,6 +12,7 @@ public static class ServiceCollectionExtensions
     {
         services
             .AddScoped<IApplicationUserService, ApplicationUserService>()
+            .AddScoped<IRoleService, RoleService>()
             .AddFastEndpoints();
 
         services

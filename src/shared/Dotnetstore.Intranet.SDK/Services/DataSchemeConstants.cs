@@ -11,4 +11,7 @@ public static class DataSchemeConstants
     public const int UserPasswordMaxLength = 100;
     public const int UserDateOfBirthMin = -70;
     public const int UserDateOfBirthMax = -15;
+    
+    public const int UserRoleNameMaxLength = 50;
+    public const int UserRoleNameDescriptionLength = 200;
 }
