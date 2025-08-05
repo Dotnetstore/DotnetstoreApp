@@ -1,9 +1,12 @@
-﻿using Dotnetstore.Intranet.SharedKernel.Models;
+﻿using Dotnetstore.Intranet.Organization.UserInRoles;
+using Dotnetstore.Intranet.SharedKernel.Models;
 
 namespace Dotnetstore.Intranet.Organization.Users;
 
-public class ApplicationUser : PersonIdentity<ApplicationUserId>
+internal sealed class ApplicationUser : PersonIdentity<ApplicationUserId>
 {
+    public ICollection<ApplicationUserInRole> ApplicationUserInRoles { get; init; } = new List<ApplicationUserInRole>();
+    
     private ApplicationUser(
         ApplicationUserId id,
         string lastName,

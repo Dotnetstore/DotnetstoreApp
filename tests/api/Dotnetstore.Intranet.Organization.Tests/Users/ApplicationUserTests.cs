@@ -1,4 +1,5 @@
-﻿using Dotnetstore.Intranet.Organization.Users;
+﻿using Dotnetstore.Intranet.Organization.UserInRoles;
+using Dotnetstore.Intranet.Organization.Users;
 using Shouldly;
 using Xunit;
 
@@ -40,7 +41,8 @@ public class ApplicationUserTests
         properties.ShouldContain(p => p.Name == nameof(ApplicationUser.AccountIsApproved) && p.PropertyType == typeof(bool));
         properties.ShouldContain(p => p.Name == nameof(ApplicationUser.EmailAddressConfirmationCode) && p.PropertyType == typeof(string));
         properties.ShouldContain(p => p.Name == nameof(ApplicationUser.EmailAddressIsConfirmed) && p.PropertyType == typeof(bool));
-        properties.Length.ShouldBe(24);
+        properties.ShouldContain(p => p.Name == nameof(ApplicationUser.ApplicationUserInRoles) && p.PropertyType == typeof(ICollection<ApplicationUserInRole>));
+        properties.Length.ShouldBe(25);
     }
 
     [Fact]

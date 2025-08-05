@@ -11,8 +11,10 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="NServiceBus.Extensions.Hosting" Version="3.0.1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\shared\Dotnetstore.Intranet.SDK\Dotnetstore.Intranet.SDK.csproj" />
+    <ProjectReference Include="..\Dotnetstore.Intranet.Contract\Dotnetstore.Intranet.Contract.csproj" />
   </ItemGroup>
 </Project>

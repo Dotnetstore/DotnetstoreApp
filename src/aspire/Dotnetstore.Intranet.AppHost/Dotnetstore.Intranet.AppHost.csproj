@@ -13,6 +13,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\api\Dotnetstore.Intranet.WebApi\Dotnetstore.Intranet.WebApi.csproj" />
+      <ProjectReference Include="..\..\services\Dotnetstore.Intranet.EmailService\Dotnetstore.Intranet.EmailService.csproj" />
       <ProjectReference Include="..\..\ui\Dotnetstore.Intranet.Web\Dotnetstore.Intranet.Web.csproj" />
     </ItemGroup>
 

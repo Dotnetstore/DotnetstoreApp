@@ -2,9 +2,9 @@
 
 namespace Dotnetstore.Intranet.Organization.Roles;
 
-internal sealed class RoleService : IRoleService
+internal sealed class ApplicationUserRoleService : IApplicationUserRoleService
 {
-    async ValueTask<ApplicationUserRole?> IRoleService.GetByNameAsync(string roleName, CancellationToken cancellationToken)
+    async ValueTask<ApplicationUserRole?> IApplicationUserRoleService.GetByNameAsync(string roleName, CancellationToken cancellationToken)
     {
         await Task.Delay(100, cancellationToken);
 

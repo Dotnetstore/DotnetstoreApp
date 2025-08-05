@@ -1,7 +1,5 @@
-﻿using Dotnetstore.Intranet.Email.Extensions;
-using Dotnetstore.Intranet.Organization.Data;
+﻿using Dotnetstore.Intranet.Contract.Events;
 using Dotnetstore.Intranet.Organization.Extensions;
-using Dotnetstore.Intranet.Organization.Services;
 using Dotnetstore.Intranet.SDK.Models;
 using Dotnetstore.Intranet.ServiceDefaults;
 using Dotnetstore.Intranet.SharedKernel.Extensions;
@@ -28,14 +26,13 @@ internal static class StartApplicationExtensions
     {
         builder
             .AddServiceDefaults()
-            .AddNpgsqlDbContext<OrganizationDataContext>(connectionName: "DotnetstoreIntranet");
+            .RegisterNServiceBus();
         
         var appSettings = builder.Configuration.GetSection("AppSettings").Get<AppSettings>();
         ArgumentNullException.ThrowIfNull(appSettings, nameof(appSettings));
 
         builder.Services
             .RegisterSharedKernelServices()
-            .RegisterEmailServices()
             .RegisterOrganizationServices()
             .AddSingleton(TimeProvider.System)
             .AddSingleton(appSettings)
@@ -57,6 +54,20 @@ internal static class StartApplicationExtensions
         
         return builder;
     }
+
+    private static WebApplicationBuilder RegisterNServiceBus(this WebApplicationBuilder builder)
+    {
+        var endpointConfiguration = new EndpointConfiguration("DotnetstoreIntranetWebApi");
+        endpointConfiguration.UseSerialization<SystemJsonSerializer>();
+
+        var transport = endpointConfiguration.UseTransport(new LearningTransport());
+        transport.RouteToEndpoint(typeof(ApplicationUserAddedEvent), "DotnetstoreIntranetWebApi");
+        transport.RouteToEndpoint(typeof(ApplicationUserAddedEvent), "DotnetstoreIntranetEmailService");
+
+        builder.UseNServiceBus(endpointConfiguration);
+        
+        return builder;
+    }
     
     private static WebApplication BuildApplication(this WebApplicationBuilder builder)
     {
@@ -66,7 +77,7 @@ internal static class StartApplicationExtensions
     private static WebApplication RegisterMiddlewares(this WebApplication app)
     {
         app
-            .UseMiddleware<RefreshTokenMiddleware>()
+            // .UseMiddleware<RefreshTokenMiddleware>()
             .UseAuthentication()
             .UseAuthorization()
             .UseHttpsRedirection()

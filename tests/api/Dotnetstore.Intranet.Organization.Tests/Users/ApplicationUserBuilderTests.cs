@@ -20,6 +20,9 @@ public class ApplicationUserBuilderTests
             .WithSocialSecurityNumber("123-45-6789")
             .WithEmailAddress("test@test.com")
             .WithPasswordHash("hashedpassword")
+            .WithEmailAddressIsConfirmed()
+            .WithEmailAddressConfirmationCode()
+            .WithAccountIsApproved()
             .WithCreatedDate(DateTime.UtcNow)
             .WithCreatedBy()
             .Build();

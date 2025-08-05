@@ -1,4 +1,5 @@
 ﻿using Dotnetstore.Intranet.Organization.Roles;
+using Dotnetstore.Intranet.Organization.UserInRoles;
 using Shouldly;
 using Xunit;
 
@@ -29,7 +30,8 @@ public class ApplicationUserRoleTests
         properties.ShouldContain(p => p.Name == nameof(ApplicationUserRole.IsSystem) && p.PropertyType == typeof(bool));
         properties.ShouldContain(p => p.Name == nameof(ApplicationUserRole.IsGdpr) && p.PropertyType == typeof(bool));
         properties.ShouldContain(p => p.Name == nameof(ApplicationUserRole.ConcurrencyToken) && p.PropertyType == typeof(byte[]));
-        properties.Length.ShouldBe(13);
+        properties.ShouldContain(p => p.Name == nameof(ApplicationUserRole.ApplicationUserInRoles) && p.PropertyType == typeof(ICollection<ApplicationUserInRole>));
+        properties.Length.ShouldBe(14);
     }
     
     [Fact]

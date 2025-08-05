@@ -1,9 +1,11 @@
 ﻿using Ardalis.GuardClauses;
 using Dotnetstore.Intranet.SDK.Services;
+using Dotnetstore.Intranet.SharedKernel.Services;
 
 namespace Dotnetstore.Intranet.Organization.Users;
 
 internal sealed class ApplicationUserBuilder : 
+    BaseInformationBuilder<ApplicationUserBuilder>,
     ICreateApplicationUserId, 
     ICreateLastName, 
     ICreateFirstName, 
@@ -12,8 +14,10 @@ internal sealed class ApplicationUserBuilder :
     ICreateIsMale, 
     ICreateSocialSecurityNumber, 
     ICreateEmailAddress, 
-    ICreatePasswordHash, 
-    IBaseInformation
+    ICreatePasswordHash,
+    ICreateEmailAddressIsConfirmed,
+    ICreateEmailAddressConfirmationCode,
+    ICreateAccountIsApproved
 {
     private Guid _id;
     private string _lastName = string.Empty;
@@ -24,15 +28,6 @@ internal sealed class ApplicationUserBuilder :
     private string? _socialSecurityNumber;
     private string _emailAddress = string.Empty;
     private string _passwordHash = string.Empty;
-    private DateTime _createdDate = DateTime.UtcNow;
-    private Guid? _createdBy;
-    private Guid? _lastUpdatedBy;
-    private DateTime? _lastUpdatedDate;
-    private bool _isDeleted;
-    private Guid? _deletedBy;
-    private DateTime? _deletedDate;
-    private bool _isSystem;
-    private bool _isGdpr;
     private bool _emailAddressIsConfirmed;
     private string? _emailAddressConfirmationCode;
     private bool _accountIsApproved;
@@ -117,7 +112,7 @@ internal sealed class ApplicationUserBuilder :
         return this;
     }
 
-    IBaseInformation ICreatePasswordHash.WithPasswordHash(string passwordHash)
+    ICreateEmailAddressIsConfirmed ICreatePasswordHash.WithPasswordHash(string passwordHash)
     {
         Guard.Against.NullOrWhiteSpace(passwordHash, nameof(passwordHash), "Password hash cannot be null or empty.");
         Guard.Against.StringTooLong(passwordHash, DataSchemeConstants.UserPasswordMaxLength, nameof(passwordHash), $"Password hash cannot be longer than {DataSchemeConstants.UserPasswordMaxLength} characters.");
@@ -125,88 +120,13 @@ internal sealed class ApplicationUserBuilder :
         return this;
     }
 
-    IBaseInformation IBaseInformation.WithCreatedDate(DateTime createdDate)
-    {
-        Guard.Against.OutOfRange(createdDate, nameof(createdDate), DateTime.MinValue, DateTime.MaxValue, "Created date must be a valid date.");
-        _createdDate = createdDate;
-        return this;
-    }
-
-    IBaseInformation IBaseInformation.WithCreatedBy(Guid? createdBy)
-    {
-        if (createdBy.HasValue)
-        {
-            Guard.Against.Default(createdBy, nameof(createdBy), "Created by cannot be empty.");
-        }
-        _createdBy = createdBy;
-        return this;
-    }
-
-    IBaseInformation IBaseInformation.WithLastUpdatedBy(Guid? lastUpdatedBy)
-    {
-        if (lastUpdatedBy.HasValue)
-        {
-            Guard.Against.Default(lastUpdatedBy, nameof(lastUpdatedBy), "Last updated by cannot be empty.");
-        }
-        _lastUpdatedBy = lastUpdatedBy;
-        return this;
-    }
-
-    IBaseInformation IBaseInformation.WithLastUpdatedDate(DateTime? lastUpdatedDate)
-    {
-        if (lastUpdatedDate.HasValue)
-        {
-            Guard.Against.OutOfRange(lastUpdatedDate.Value, nameof(lastUpdatedDate), DateTime.MinValue, DateTime.MaxValue, "Last updated date must be a valid date.");
-        }
-        _lastUpdatedDate = lastUpdatedDate;
-        return this;
-    }
-
-    IBaseInformation IBaseInformation.WithIsDeleted(bool isDeleted)
-    {
-        _isDeleted = isDeleted;
-        return this;
-    }
-
-    IBaseInformation IBaseInformation.WithDeletedBy(Guid? deletedBy)
-    {
-        if (deletedBy.HasValue)
-        {
-            Guard.Against.Default(deletedBy, nameof(deletedBy), "Deleted by cannot be empty.");
-        }
-        _deletedBy = deletedBy;
-        return this;
-    }
-
-    IBaseInformation IBaseInformation.WithDeletedDate(DateTime? deletedDate)
-    {
-        if (deletedDate.HasValue)
-        {
-            Guard.Against.OutOfRange(deletedDate.Value, nameof(deletedDate), DateTime.MinValue, DateTime.MaxValue, "Deleted date must be a valid date.");
-        }
-        _deletedDate = deletedDate;
-        return this;
-    }
-
-    IBaseInformation IBaseInformation.WithIsSystem(bool isSystem)
-    {
-        _isSystem = isSystem;
-        return this;
-    }
-
-    IBaseInformation IBaseInformation.WithIsGdpr(bool isGdpr)
-    {
-        _isGdpr = isGdpr;
-        return this;
-    }
-
-    IBaseInformation IBaseInformation.WithEmailAddressIsConfirmed(bool emailAddressIsConfirmed)
+    ICreateEmailAddressConfirmationCode ICreateEmailAddressIsConfirmed.WithEmailAddressIsConfirmed(bool emailAddressIsConfirmed)
     {
         _emailAddressIsConfirmed = emailAddressIsConfirmed;
         return this;
     }
 
-    IBaseInformation IBaseInformation.WithEmailAddressConfirmationCode(string? emailAddressConfirmationCode)
+    ICreateAccountIsApproved ICreateEmailAddressConfirmationCode.WithEmailAddressConfirmationCode(string? emailAddressConfirmationCode)
     {
         if (!string.IsNullOrEmpty(emailAddressConfirmationCode))
         {
@@ -217,13 +137,13 @@ internal sealed class ApplicationUserBuilder :
         return this;
     }
 
-    IBaseInformation IBaseInformation.WithAccountIsApproved(bool accountIsApproved)
+    ApplicationUserBuilder ICreateAccountIsApproved.WithAccountIsApproved(bool accountIsApproved)
     {
         _accountIsApproved = accountIsApproved;
         return this;
     }
 
-    ApplicationUser IBaseInformation.Build()
+    public ApplicationUser Build()
     {
         return ApplicationUser.Create(
             ApplicationUserId.Create(_id), 
@@ -293,22 +213,37 @@ internal interface ICreateEmailAddress
 
 internal interface ICreatePasswordHash
 {
-    IBaseInformation WithPasswordHash(string passwordHash);
+    ICreateEmailAddressIsConfirmed WithPasswordHash(string passwordHash);
 }
 
-internal interface IBaseInformation
+internal interface ICreateEmailAddressIsConfirmed
 {
-    IBaseInformation WithCreatedDate(DateTime createdDate);
-    IBaseInformation WithCreatedBy(Guid? createdBy = null);
-    IBaseInformation WithLastUpdatedBy(Guid? lastUpdatedBy = null);
-    IBaseInformation WithLastUpdatedDate(DateTime? lastUpdatedDate = null);
-    IBaseInformation WithIsDeleted(bool isDeleted = false);
-    IBaseInformation WithDeletedBy(Guid? deletedBy = null);
-    IBaseInformation WithDeletedDate(DateTime? deletedDate = null);
-    IBaseInformation WithIsSystem(bool isSystem = false);
-    IBaseInformation WithIsGdpr(bool isGdpr = false);
-    IBaseInformation WithEmailAddressIsConfirmed(bool emailAddressIsConfirmed = false);
-    IBaseInformation WithEmailAddressConfirmationCode(string? emailAddressConfirmationCode = null);
-    IBaseInformation WithAccountIsApproved(bool accountIsApproved = false);
-    ApplicationUser Build();
+    ICreateEmailAddressConfirmationCode WithEmailAddressIsConfirmed(bool emailAddressIsConfirmed = false);
 }
+
+internal interface ICreateEmailAddressConfirmationCode
+{
+    ICreateAccountIsApproved WithEmailAddressConfirmationCode(string? emailAddressConfirmationCode = null);
+}
+
+internal interface ICreateAccountIsApproved
+{
+    ApplicationUserBuilder WithAccountIsApproved(bool accountIsApproved = false);
+}
+
+// internal interface IBaseInformation
+// {
+//     IBaseInformation WithCreatedDate(DateTime createdDate);
+//     IBaseInformation WithCreatedBy(Guid? createdBy = null);
+//     IBaseInformation WithLastUpdatedBy(Guid? lastUpdatedBy = null);
+//     IBaseInformation WithLastUpdatedDate(DateTime? lastUpdatedDate = null);
+//     IBaseInformation WithIsDeleted(bool isDeleted = false);
+//     IBaseInformation WithDeletedBy(Guid? deletedBy = null);
+//     IBaseInformation WithDeletedDate(DateTime? deletedDate = null);
+//     IBaseInformation WithIsSystem(bool isSystem = false);
+//     IBaseInformation WithIsGdpr(bool isGdpr = false);
+//     IBaseInformation WithEmailAddressIsConfirmed(bool emailAddressIsConfirmed = false);
+//     IBaseInformation WithEmailAddressConfirmationCode(string? emailAddressConfirmationCode = null);
+//     IBaseInformation WithAccountIsApproved(bool accountIsApproved = false);
+//     ApplicationUser Build();
+// }

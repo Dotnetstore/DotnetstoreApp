@@ -40,7 +40,7 @@ public class ApplicationUserConfigurationTests
         idProperty.ShouldNotBeNull();
         idProperty.IsKey().ShouldBeTrue();
         idProperty.IsNullable.ShouldBeFalse();
-        idProperty.GetMaxLength().ShouldBeNull(); // Guid does not have a max length
+        idProperty.GetMaxLength().ShouldBeNull();
         idProperty.GetValueConverter().ShouldNotBeNull();
         idProperty.GetValueConverter()!.ConvertToProviderExpression.Body.ToString().ShouldContain("v.Value");
         idProperty.GetValueConverter()!.ConvertFromProviderExpression.Body.ToString().ShouldContain("Create(v)");

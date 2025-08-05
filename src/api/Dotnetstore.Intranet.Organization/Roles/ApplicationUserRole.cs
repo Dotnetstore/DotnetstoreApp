@@ -1,11 +1,14 @@
-﻿using Dotnetstore.Intranet.SharedKernel.Models;
+﻿using Dotnetstore.Intranet.Organization.UserInRoles;
+using Dotnetstore.Intranet.SharedKernel.Models;
 
 namespace Dotnetstore.Intranet.Organization.Roles;
 
-public class ApplicationUserRole : AggregateRoot<ApplicationUserRoleId>
+internal sealed class ApplicationUserRole : AggregateRoot<ApplicationUserRoleId>
 {
     public string Name { get; init; }
     public string Description { get; init; }
+
+    public ICollection<ApplicationUserInRole> ApplicationUserInRoles { get; init; } = new List<ApplicationUserInRole>();
     
     private ApplicationUserRole(
         ApplicationUserRoleId id,

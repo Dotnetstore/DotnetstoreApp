@@ -69,6 +69,6 @@ public class DataSchemeConstantsTests
     [Fact]
     public void UserRoleNameDescriptionLength_Should_Be200()
     {
-        DataSchemeConstants.UserRoleNameDescriptionLength.ShouldBe(200);
+        DataSchemeConstants.UserRoleDescriptionLength.ShouldBe(200);
     }
 }

@@ -1,4 +1,6 @@
-﻿using Dotnetstore.Intranet.Organization.Roles;
+﻿using Dotnetstore.Intranet.Organization.Handlers;
+using Dotnetstore.Intranet.Organization.Roles;
+using Dotnetstore.Intranet.Organization.UserInRoles;
 using Dotnetstore.Intranet.Organization.Users;
 using FastEndpoints;
 using Microsoft.AspNetCore.Http;
@@ -11,8 +13,12 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection RegisterOrganizationServices(this IServiceCollection services)
     {
         services
+            .AddScoped<ApplicationUserCreatedCheckApproveStatusHandler>()
+            .AddScoped<ApplicationUserCreatedSetRoleHandler>()
             .AddScoped<IApplicationUserService, ApplicationUserService>()
-            .AddScoped<IRoleService, RoleService>()
+            .AddScoped<IApplicationUserRoleService, ApplicationUserRoleService>()
+            .AddScoped<IApplicationUserInRoleService, ApplicationUserInRoleService>()
+            // .AddNpgsqlDbContext<OrganizationDataContext>(connectionName: "DotnetstoreIntranet")
             .AddFastEndpoints();
 
         services

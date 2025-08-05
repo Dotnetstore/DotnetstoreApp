@@ -12,4 +12,8 @@ var webUi = builder.AddProject<Projects.Dotnetstore_Intranet_Web>("webui")
     .WithReference(webApi)
     .WaitFor(webApi);
 
+var emailService = builder.AddProject<Projects.Dotnetstore_Intranet_EmailService>("emailservice")
+    .WithReference(webApi)
+    .WaitFor(webApi);
+
 builder.Build().Run();

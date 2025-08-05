@@ -1,5 +1,5 @@
 ﻿using Dotnetstore.Intranet.Organization.Roles;
-using Shouldly;
+using Dotnetstore.Intranet.TestHelper;
 using Xunit;
 
 namespace Dotnetstore.Intranet.Organization.Tests.Roles;
@@ -7,70 +7,22 @@ namespace Dotnetstore.Intranet.Organization.Tests.Roles;
 public class ApplicationUserRoleIdTests
 {
     [Fact]
-    public void Create_ShouldReturnNewUserId()
-    {
-        // Arrange & Act
-        var userId = ApplicationUserRoleId.Create();
-
-        // Assert
-        userId.Value.ShouldNotBe(Guid.Empty);
-        userId.Value.Version.ShouldBe(7);
-        userId.ShouldBeOfType<ApplicationUserRoleId>();
-    }
+    public void Create_Should_ReturnNewId()
+        => ValueObjectTestHelper.TestCreate(ApplicationUserRoleId.Create, x => x.Value);
     
     [Fact]
-    public void Create_WithGuid_ShouldReturnUserRoleIdWithSpecifiedValue()
-    {
-        // Arrange
-        var guid = Guid.NewGuid();
-
-        // Act
-        var userId = ApplicationUserRoleId.Create(guid);
-
-        // Assert
-        userId.Value.ShouldBe(guid);
-        userId.ShouldBeOfType<ApplicationUserRoleId>();
-    }
+    public void Create_WithGuid_Should_ReturnIdWithSpecifiedValue()
+        => ValueObjectTestHelper.TestCreateWithGuid(ApplicationUserRoleId.Create, x => x.Value);
     
     [Fact]
-    public void ToString_ShouldReturnStringRepresentationOfValue()
-    {
-        // Arrange
-        var userId = ApplicationUserRoleId.Create();
-
-        // Act
-        var result = userId.ToString();
-
-        // Assert
-        result.ShouldBe(userId.Value.ToString());
-    }
+    public void ToString_Should_ReturnStringRepresentationOfValue()
+        => ValueObjectTestHelper.TestToString(ApplicationUserRoleId.Create, x => x.Value);
     
     [Fact]
-    public void Equality_ShouldBeBasedOnValue()
-    {
-        // Arrange
-        var userId1 = ApplicationUserRoleId.Create();
-        var userId2 = ApplicationUserRoleId.Create(userId1.Value);
-
-        // Act & Assert
-        userId1.ShouldBe(userId2);
-        userId1.Equals(userId2).ShouldBeTrue();
-        (userId1 == userId2).ShouldBeTrue();
-        (userId1 != userId2).ShouldBeFalse();
-    }
+    public void Equality_Should_BeBasedOnValue()
+        => ValueObjectTestHelper.TestEquality(ApplicationUserRoleId.Create, ApplicationUserRoleId.Create, x => x.Value);
     
     [Fact]
-    public void GetHashCode_ShouldReturnHashBasedOnValue()
-    {
-        // Arrange
-        var userId1 = ApplicationUserRoleId.Create();
-        var userId2 = ApplicationUserRoleId.Create(userId1.Value);
-
-        // Act
-        var hash1 = userId1.GetHashCode();
-        var hash2 = userId2.GetHashCode();
-
-        // Assert
-        hash1.ShouldBe(hash2);
-    }
+    public void GetHashCode_Should_ReturnHashBasedOnValue()
+        => ValueObjectTestHelper.TestGetHashCode(ApplicationUserRoleId.Create);
 }

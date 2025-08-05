@@ -1,8 +1,0 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-  <ItemGroup>
-    <PackageReference Include="MailKit" Version="4.13.0" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Dotnetstore.Intranet.SharedKernel\Dotnetstore.Intranet.SharedKernel.csproj" />
-  </ItemGroup>
-</Project>

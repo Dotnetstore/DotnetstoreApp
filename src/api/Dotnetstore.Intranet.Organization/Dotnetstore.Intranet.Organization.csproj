@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <ItemGroup>
-      <ProjectReference Include="..\Dotnetstore.Intranet.Email\Dotnetstore.Intranet.Email.csproj" />
       <ProjectReference Include="..\Dotnetstore.Intranet.SharedKernel\Dotnetstore.Intranet.SharedKernel.csproj" />
     </ItemGroup>
 
     <ItemGroup>
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.7" />
+        <PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.4.0" />
     </ItemGroup>
 
 </Project>
