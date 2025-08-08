@@ -1,5 +1,4 @@
-﻿using Dotnetstore.Intranet.SDK.Services;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
@@ -12,6 +11,9 @@ internal sealed class ApplicationUserRoleConfiguration : IEntityTypeConfiguratio
         var converter = new ValueConverter<ApplicationUserRoleId, Guid>(
             v => v.Value,
             v => ApplicationUserRoleId.Create(v));
+        
+        builder
+            .ToTable(nameof(ApplicationUserRole).ToLower());
         
         builder
             .HasKey(x => x.Id);

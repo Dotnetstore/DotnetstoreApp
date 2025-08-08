@@ -1,0 +1,15 @@
+{
+  "NServiceBus.MessageId": "a8335c15-47f8-4893-9e05-b33300b5c3e4",
+  "NServiceBus.MessageIntent": "Publish",
+  "NServiceBus.ConversationId": "313c7c93-e237-4ee6-b3ec-b33300b5c3e4",
+  "NServiceBus.CorrelationId": "a8335c15-47f8-4893-9e05-b33300b5c3e4",
+  "NServiceBus.ReplyToAddress": "DotnetstoreIntranetWebApi",
+  "NServiceBus.OriginatingMachine": "MSI15B13V",
+  "NServiceBus.OriginatingEndpoint": "DotnetstoreIntranetWebApi",
+  "$.diagnostics.originating.hostid": "575fee3b465e23743080e41124f4c29f",
+  "NServiceBus.ContentType": "application\/json",
+  "NServiceBus.EnclosedMessageTypes": "Dotnetstore.Intranet.Contract.Events.ApplicationUserAddedEvent, Dotnetstore.Intranet.Contract, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+  "NServiceBus.Version": "9.2.3",
+  "NServiceBus.TimeSent": "2025-08-08 11:01:47:210299 Z",
+  "traceparent": "00-40d9e05d867dec334ad56dec912c6fb2-b5597b1224184fa0-01"
+}

@@ -32,8 +32,7 @@ public class ApplicationUserInRoleTests
         properties.ShouldContain(p => p.Name == nameof(ApplicationUserInRole.DeletedDate) && p.PropertyType == typeof(DateTime?));
         properties.ShouldContain(p => p.Name == nameof(ApplicationUserInRole.IsSystem) && p.PropertyType == typeof(bool));
         properties.ShouldContain(p => p.Name == nameof(ApplicationUserInRole.IsGdpr) && p.PropertyType == typeof(bool));
-        properties.ShouldContain(p => p.Name == nameof(ApplicationUserInRole.ConcurrencyToken) && p.PropertyType == typeof(byte[]));
-        properties.Length.ShouldBe(15, "The ApplicationUserInRole class should have 15 properties.");
+        properties.Length.ShouldBe(14);
     }
 
     [Fact]

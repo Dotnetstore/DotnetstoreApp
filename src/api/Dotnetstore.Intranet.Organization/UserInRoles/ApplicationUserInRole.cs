@@ -4,7 +4,7 @@ using Dotnetstore.Intranet.SharedKernel.Models;
 
 namespace Dotnetstore.Intranet.Organization.UserInRoles;
 
-internal sealed class ApplicationUserInRole : AggregateRoot<ApplicationUserInRoleId>
+public sealed class ApplicationUserInRole : AggregateRoot<ApplicationUserInRoleId>
 {
     public ApplicationUserRoleId ApplicationUserRoleId { get; init; }
     

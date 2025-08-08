@@ -1,10 +1,10 @@
 ﻿using System.Security.Cryptography;
+using Dotnetstore.Intranet.SDK.Extensions;
 using Dotnetstore.Intranet.SDK.Models;
 using Dotnetstore.Intranet.ServiceDefaults;
 using Dotnetstore.Intranet.Web.Pages;
-using Dotnetstore.Intranet.Web.Pages.Organization.ApplicationUsers.Models;
-using Dotnetstore.Intranet.Web.Pages.Organization.ApplicationUsers.Services;
 using Dotnetstore.Intranet.Web.Pages.Users.Models;
+using Dotnetstore.Intranet.Web.Pages.Users.Services;
 using Dotnetstore.Intranet.Web.Pages.Users.Validators;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc.Razor;
@@ -87,6 +87,7 @@ internal static class StartApplicationExtensions
         AppSettings appSettings)
     {
         builder
+            .RegisterSdk(appSettings)
             .AddServiceDefaults()
             .RegisterLocalization()
             .RegisterTokenServices(appSettings)
@@ -101,7 +102,6 @@ internal static class StartApplicationExtensions
                 options.LowercaseQueryStrings = true;
                 options.AppendTrailingSlash = true;
             })
-            .AddScoped<IApplicationUserClientService, ApplicationUserClientService>()
             .AddTransient<AuthenticatedHttpClientHandler>();
         
         return builder;

@@ -1,15 +1,17 @@
 ﻿using Dotnetstore.Intranet.SharedKernel.Services;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Dotnetstore.Intranet.SharedKernel.Extensions;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection RegisterSharedKernelServices(this IServiceCollection services)
+    public static WebApplicationBuilder RegisterSharedKernelServices(this WebApplicationBuilder builder)
     {
-        services
+        builder.Services
+            .AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>))
             .AddScoped<IAuthService, AuthService>();
 
-        return services;
+        return builder;
     }
 }

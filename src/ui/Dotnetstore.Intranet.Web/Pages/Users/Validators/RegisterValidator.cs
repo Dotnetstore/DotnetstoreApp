@@ -22,8 +22,8 @@ internal sealed class RegisterValidator : AbstractValidator<RegisterModel>
         
         RuleFor(x => x.DateOfBirth)
             .NotEmpty().NotNull().WithMessage("Date of birth is required.")
-            .LessThan(DateTime.Now.AddYears(DataSchemeConstants.UserDateOfBirthMax)).WithMessage("User must be at least 15 years old.")
-            .GreaterThanOrEqualTo(DateTime.Now.AddYears(DataSchemeConstants.UserDateOfBirthMin)).WithMessage("User must be at most 70 years old.");
+            .LessThan(DateTime.UtcNow.AddYears(DataSchemeConstants.UserDateOfBirthMax)).WithMessage("User must be at least 15 years old.")
+            .GreaterThanOrEqualTo(DateTime.UtcNow.AddYears(DataSchemeConstants.UserDateOfBirthMin)).WithMessage("User must be at most 70 years old.");
         
         RuleFor(x => x.SocialSecurityNumber)
             .MaximumLength(DataSchemeConstants.UserSocialSecurityNumberMaxLength).WithMessage($"Social Security Number cannot exceed {DataSchemeConstants.UserSocialSecurityNumberMaxLength} characters.")

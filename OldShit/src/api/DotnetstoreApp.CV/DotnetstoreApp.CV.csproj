@@ -1,8 +1,0 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
-    <ItemGroup>
-      <ProjectReference Include="..\DotnetstoreApp.SDK\DotnetstoreApp.SDK.csproj" />
-      <ProjectReference Include="..\DotnetstoreApp.SharedKernel\DotnetstoreApp.SharedKernel.csproj" />
-    </ItemGroup>
-
-</Project>

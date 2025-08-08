@@ -1,0 +1,13 @@
+﻿global using System;
+global using System.Collections.Generic;
+global using Microsoft.Extensions.Logging;
+global using Ardalis.Result;
+global using Dotnetstore.Intranet.SDK.Requests.Organization.Users;
+global using Dotnetstore.Intranet.SDK.Services;
+global using FastEndpoints;
+global using FastEndpoints.Swagger;
+global using Microsoft.AspNetCore.Http;
+global using Microsoft.Extensions.Options;
+global using Dotnetstore.Intranet.SharedKernel.Services;
+global using Dotnetstore.Intranet.Contract.Events;
+global using FluentValidation;

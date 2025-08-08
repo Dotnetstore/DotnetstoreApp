@@ -1,7 +1,6 @@
 ﻿using Ardalis.GuardClauses;
 using Dotnetstore.Intranet.Organization.Roles;
 using Dotnetstore.Intranet.Organization.Users;
-using Dotnetstore.Intranet.SharedKernel.Services;
 
 namespace Dotnetstore.Intranet.Organization.UserInRoles;
 

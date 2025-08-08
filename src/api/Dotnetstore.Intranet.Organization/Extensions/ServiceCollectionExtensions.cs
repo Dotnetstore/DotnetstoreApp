@@ -1,27 +1,37 @@
-﻿using Dotnetstore.Intranet.Organization.Handlers;
+﻿using Dotnetstore.Intranet.Organization.Data;
+using Dotnetstore.Intranet.Organization.Handlers;
 using Dotnetstore.Intranet.Organization.Roles;
+using Dotnetstore.Intranet.Organization.Services;
 using Dotnetstore.Intranet.Organization.UserInRoles;
 using Dotnetstore.Intranet.Organization.Users;
-using FastEndpoints;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace Dotnetstore.Intranet.Organization.Extensions;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection RegisterOrganizationServices(this IServiceCollection services)
+    public static WebApplicationBuilder RegisterOrganizationServices(this WebApplicationBuilder builder)
     {
-        services
+        builder
+            .AddNpgsqlDbContext<OrganizationDataContext>(connectionName: "DotnetstoreIntranet");
+            
+        builder.Services
             .AddScoped<ApplicationUserCreatedCheckApproveStatusHandler>()
             .AddScoped<ApplicationUserCreatedSetRoleHandler>()
+            .AddScoped<IUnitOfWork, UnitOfWork>()
+            .AddScoped<IEventService, EventService>()
+            .AddScoped<ITokenService, TokenService>()
+            .AddScoped<IApplicationUserRepository, ApplicationUserRepository>()
             .AddScoped<IApplicationUserService, ApplicationUserService>()
+            .AddScoped<IApplicationUserRoleRepository, ApplicationUserRoleRepository>()
             .AddScoped<IApplicationUserRoleService, ApplicationUserRoleService>()
+            .AddScoped<IApplicationUserInRoleRepository, ApplicationUserInRoleRepository>()
             .AddScoped<IApplicationUserInRoleService, ApplicationUserInRoleService>()
-            // .AddNpgsqlDbContext<OrganizationDataContext>(connectionName: "DotnetstoreIntranet")
             .AddFastEndpoints();
 
-        services
+        builder.Services
             .Configure<CookieOptions>(options =>
             {
                 options.HttpOnly = true;
@@ -30,6 +40,16 @@ public static class ServiceCollectionExtensions
                 options.Expires = DateTimeOffset.UtcNow.AddHours(4);
             });
         
-        return services;
+        return builder;
+    }
+    
+    public static WebApplication UseOrganizationServices(this WebApplication app)
+    {
+        app
+            .UseMiddleware<RefreshTokenMiddleware>()
+            .UseAuthentication()
+            .UseAuthorization();
+        
+        return app;
     }
 }

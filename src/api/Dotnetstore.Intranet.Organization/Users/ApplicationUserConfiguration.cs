@@ -1,5 +1,4 @@
-﻿using Dotnetstore.Intranet.SDK.Services;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
@@ -12,6 +11,9 @@ internal sealed class ApplicationUserConfiguration : IEntityTypeConfiguration<Ap
         var converter = new ValueConverter<ApplicationUserId, Guid>(
             v => v.Value,
             v => ApplicationUserId.Create(v));
+        
+        builder
+            .ToTable(nameof(ApplicationUser).ToLower());
         
         builder
             .HasKey(x => x.Id);

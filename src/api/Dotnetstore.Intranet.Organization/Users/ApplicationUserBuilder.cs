@@ -1,6 +1,4 @@
 ﻿using Ardalis.GuardClauses;
-using Dotnetstore.Intranet.SDK.Services;
-using Dotnetstore.Intranet.SharedKernel.Services;
 
 namespace Dotnetstore.Intranet.Organization.Users;
 
@@ -82,7 +80,7 @@ internal sealed class ApplicationUserBuilder :
     ICreateIsMale ICreateDateOfBirth.WithDateOfBirth(DateTime dateOfBirth)
     {
         Guard.Against.OutOfRange(dateOfBirth, nameof(dateOfBirth), DateTime.MinValue, DateTime.MaxValue, "Date of birth must be a valid date.");
-        Guard.Against.OutOfRange(dateOfBirth, nameof(dateOfBirth), DateTime.Now.AddYears(DataSchemeConstants.UserDateOfBirthMin), DateTime.Now.AddYears(DataSchemeConstants.UserDateOfBirthMax), "Date of birth must be between 70 years ago and 15 years ago from today.");
+        Guard.Against.OutOfRange(dateOfBirth, nameof(dateOfBirth), DateTime.UtcNow.AddYears(DataSchemeConstants.UserDateOfBirthMin), DateTime.UtcNow.AddYears(DataSchemeConstants.UserDateOfBirthMax), "Date of birth must be between 70 years ago and 15 years ago from today.");
         _dateOfBirth = dateOfBirth;
         return this;
     }

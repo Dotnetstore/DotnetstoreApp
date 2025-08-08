@@ -52,6 +52,5 @@ public class ApplicationUserBuilderTests
         user.EmailAddressIsConfirmed.ShouldBeFalse();
         user.RefreshToken.ShouldBeNull();
         user.RefreshTokenExpiryTime.ShouldBeNull();
-        user.ConcurrencyToken.ShouldBeNull();
     }
 }

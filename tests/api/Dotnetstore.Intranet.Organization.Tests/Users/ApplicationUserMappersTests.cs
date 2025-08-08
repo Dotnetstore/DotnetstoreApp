@@ -37,7 +37,7 @@
 //             "123-45-6789",
 //             "test@test.com",
 //             "password123",
-//             DateTime.Now);
+//             DateTime.UtcNow);
 //
 //         // Act
 //         var response = user.ToApplicationUserResponse();

@@ -13,7 +13,7 @@ public class RegisterValidatorTests
     {
         // Arrange
         var validator = new RegisterValidator();
-        var model = GetModel(dateOfBirth: DateTime.Now.AddYears(-20));
+        var model = GetModel(dateOfBirth: DateTime.UtcNow.AddYears(-20));
         
         // Act
         var result = validator.Validate(model);
@@ -27,7 +27,7 @@ public class RegisterValidatorTests
     {
         // Arrange
         var validator = new RegisterValidator();
-        var model = GetModel(lastName: "", dateOfBirth: DateTime.Now.AddYears(-20));
+        var model = GetModel(lastName: "", dateOfBirth: DateTime.UtcNow.AddYears(-20));
         
         // Act
         var result = validator.Validate(model);
@@ -41,7 +41,7 @@ public class RegisterValidatorTests
     {
         // Arrange
         var validator = new RegisterValidator();
-        var model = GetModel(lastName: new string('a', DataSchemeConstants.UserLastNameMaxLength + 1), dateOfBirth: DateTime.Now.AddYears(-20));
+        var model = GetModel(lastName: new string('a', DataSchemeConstants.UserLastNameMaxLength + 1), dateOfBirth: DateTime.UtcNow.AddYears(-20));
 
         // Act
         var result = validator.Validate(model);
@@ -55,7 +55,7 @@ public class RegisterValidatorTests
     {
         // Arrange
         var validator = new RegisterValidator();
-        var model = GetModel(firstName: "", dateOfBirth: DateTime.Now.AddYears(-20));
+        var model = GetModel(firstName: "", dateOfBirth: DateTime.UtcNow.AddYears(-20));
         
         // Act
         var result = validator.Validate(model);
@@ -69,7 +69,7 @@ public class RegisterValidatorTests
     {
         // Arrange
         var validator = new RegisterValidator();
-        var model = GetModel(firstName: new string('a', DataSchemeConstants.UserFirstNameMaxLength + 1), dateOfBirth: DateTime.Now.AddYears(-20));
+        var model = GetModel(firstName: new string('a', DataSchemeConstants.UserFirstNameMaxLength + 1), dateOfBirth: DateTime.UtcNow.AddYears(-20));
         
         // Act
         var result = validator.Validate(model);
@@ -83,7 +83,7 @@ public class RegisterValidatorTests
     {
         // Arrange
         var validator = new RegisterValidator();
-        var model = GetModel(middleName: "", dateOfBirth: DateTime.Now.AddYears(-20));
+        var model = GetModel(middleName: "", dateOfBirth: DateTime.UtcNow.AddYears(-20));
         
         // Act
         var result = validator.Validate(model);
@@ -97,7 +97,7 @@ public class RegisterValidatorTests
     {
         // Arrange
         var validator = new RegisterValidator();
-        var model = GetModel(middleName: new string('a', DataSchemeConstants.UserMiddleNameMaxLength + 1), dateOfBirth: DateTime.Now.AddYears(-20));
+        var model = GetModel(middleName: new string('a', DataSchemeConstants.UserMiddleNameMaxLength + 1), dateOfBirth: DateTime.UtcNow.AddYears(-20));
         
         // Act
         var result = validator.Validate(model);
@@ -125,7 +125,7 @@ public class RegisterValidatorTests
     {
         // Arrange
         var validator = new RegisterValidator();
-        var model = GetModel(dateOfBirth: DateTime.Now.AddYears(DataSchemeConstants.UserDateOfBirthMax + 1));
+        var model = GetModel(dateOfBirth: DateTime.UtcNow.AddYears(DataSchemeConstants.UserDateOfBirthMax + 1));
         
         // Act
         var result = validator.Validate(model);
@@ -139,7 +139,7 @@ public class RegisterValidatorTests
     {
         // Arrange
         var validator = new RegisterValidator();
-        var model = GetModel(dateOfBirth: DateTime.Now.AddYears(DataSchemeConstants.UserDateOfBirthMin - 1));
+        var model = GetModel(dateOfBirth: DateTime.UtcNow.AddYears(DataSchemeConstants.UserDateOfBirthMin - 1));
         
         // Act
         var result = validator.Validate(model);
@@ -153,7 +153,7 @@ public class RegisterValidatorTests
     {
         // Arrange
         var validator = new RegisterValidator();
-        var model = GetModel(dateOfBirth: DateTime.Now.AddYears(-20));
+        var model = GetModel(dateOfBirth: DateTime.UtcNow.AddYears(-20));
         
         // Act
         var result = validator.Validate(model);
@@ -167,7 +167,7 @@ public class RegisterValidatorTests
     {
         // Arrange
         var validator = new RegisterValidator();
-        var model = GetModel(socialSecurityNumber: null, dateOfBirth: DateTime.Now.AddYears(-20));
+        var model = GetModel(socialSecurityNumber: null, dateOfBirth: DateTime.UtcNow.AddYears(-20));
         
         // Act
         var result = validator.Validate(model);
@@ -181,7 +181,7 @@ public class RegisterValidatorTests
     {
         // Arrange
         var validator = new RegisterValidator();
-        var model = GetModel(socialSecurityNumber: new string('1', DataSchemeConstants.UserSocialSecurityNumberMaxLength + 1), dateOfBirth: DateTime.Now.AddYears(-20));
+        var model = GetModel(socialSecurityNumber: new string('1', DataSchemeConstants.UserSocialSecurityNumberMaxLength + 1), dateOfBirth: DateTime.UtcNow.AddYears(-20));
         
         // Act
         var result = validator.Validate(model);
@@ -195,7 +195,7 @@ public class RegisterValidatorTests
     {
         // Arrange
         var validator = new RegisterValidator();
-        var model = GetModel(socialSecurityNumber: "123456789", dateOfBirth: DateTime.Now.AddYears(-20));
+        var model = GetModel(socialSecurityNumber: "123456789", dateOfBirth: DateTime.UtcNow.AddYears(-20));
         
         // Act
         var result = validator.Validate(model);
@@ -209,7 +209,7 @@ public class RegisterValidatorTests
     {
         // Arrange
         var validator = new RegisterValidator();
-        var model = GetModel(socialSecurityNumber: "19851212-3459", dateOfBirth: DateTime.Now.AddYears(-20));
+        var model = GetModel(socialSecurityNumber: "19851212-3459", dateOfBirth: DateTime.UtcNow.AddYears(-20));
         
         // Act
         var result = validator.Validate(model);
@@ -223,7 +223,7 @@ public class RegisterValidatorTests
     {
         // Arrange
         var validator = new RegisterValidator();
-        var model = GetModel(emailAddress: "", dateOfBirth: DateTime.Now.AddYears(-20));
+        var model = GetModel(emailAddress: "", dateOfBirth: DateTime.UtcNow.AddYears(-20));
         
         // Act
         var result = validator.Validate(model);
@@ -237,7 +237,7 @@ public class RegisterValidatorTests
     {
         // Arrange
         var validator = new RegisterValidator();
-        var model = GetModel(emailAddress: "invalid-email", dateOfBirth: DateTime.Now.AddYears(-20));
+        var model = GetModel(emailAddress: "invalid-email", dateOfBirth: DateTime.UtcNow.AddYears(-20));
         
         // Act
         var result = validator.Validate(model);
@@ -251,7 +251,7 @@ public class RegisterValidatorTests
     {
         // Arrange
         var validator = new RegisterValidator();
-        var model = GetModel(emailAddress: new string('a', DataSchemeConstants.UserEmailMaxLength + 1) + "@test.com", dateOfBirth: DateTime.Now.AddYears(-20));
+        var model = GetModel(emailAddress: new string('a', DataSchemeConstants.UserEmailMaxLength + 1) + "@test.com", dateOfBirth: DateTime.UtcNow.AddYears(-20));
         
         // Act
         var result = validator.Validate(model);
@@ -265,7 +265,7 @@ public class RegisterValidatorTests
     {
         // Arrange
         var validator = new RegisterValidator();
-        var model = GetModel(emailAddress: "test@test.com", dateOfBirth: DateTime.Now.AddYears(-20));
+        var model = GetModel(emailAddress: "test@test.com", dateOfBirth: DateTime.UtcNow.AddYears(-20));
         
         // Act
         var result = validator.Validate(model);
@@ -279,7 +279,7 @@ public class RegisterValidatorTests
     {
         // Arrange
         var validator = new RegisterValidator();
-        var model = GetModel(password: "", confirmPassword: "", dateOfBirth: DateTime.Now.AddYears(-20));
+        var model = GetModel(password: "", confirmPassword: "", dateOfBirth: DateTime.UtcNow.AddYears(-20));
         
         // Act
         var result = validator.Validate(model);
@@ -293,7 +293,7 @@ public class RegisterValidatorTests
     {
         // Arrange
         var validator = new RegisterValidator();
-        var model = GetModel(password: new string('a', DataSchemeConstants.UserPasswordMaxLength + 1), confirmPassword: new string('a', DataSchemeConstants.UserPasswordMaxLength + 1), dateOfBirth: DateTime.Now.AddYears(-20));
+        var model = GetModel(password: new string('a', DataSchemeConstants.UserPasswordMaxLength + 1), confirmPassword: new string('a', DataSchemeConstants.UserPasswordMaxLength + 1), dateOfBirth: DateTime.UtcNow.AddYears(-20));
         
         // Act
         var result = validator.Validate(model);
@@ -307,7 +307,7 @@ public class RegisterValidatorTests
     {
         // Arrange
         var validator = new RegisterValidator();
-        var model = GetModel(password: "Password123!", confirmPassword: "DifferentPassword123!", dateOfBirth: DateTime.Now.AddYears(-20));
+        var model = GetModel(password: "Password123!", confirmPassword: "DifferentPassword123!", dateOfBirth: DateTime.UtcNow.AddYears(-20));
         
         // Act
         var result = validator.Validate(model);
@@ -321,7 +321,7 @@ public class RegisterValidatorTests
     {
         // Arrange
         var validator = new RegisterValidator();
-        var model = GetModel(password: "Password123!", confirmPassword: "Password123!", dateOfBirth: DateTime.Now.AddYears(-20));
+        var model = GetModel(password: "Password123!", confirmPassword: "Password123!", dateOfBirth: DateTime.UtcNow.AddYears(-20));
         
         // Act
         var result = validator.Validate(model);

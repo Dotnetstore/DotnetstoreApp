@@ -1,9 +1,4 @@
-﻿using Dotnetstore.Intranet.SDK.Requests.Organization.Users;
-using Dotnetstore.Intranet.SDK.Services;
-using FastEndpoints;
-using FluentValidation;
-
-namespace Dotnetstore.Intranet.Organization.Users.Create;
+﻿namespace Dotnetstore.Intranet.Organization.Users.Create;
 
 internal sealed class ApplicationUserRegisterRequestValidation : Validator<ApplicationUserRegisterRequest>
 {
@@ -22,10 +17,11 @@ internal sealed class ApplicationUserRegisterRequestValidation : Validator<Appli
         
         RuleFor(x => x.DateOfBirth)
             .NotEmpty().WithMessage("Date of birth is required.")
-            .LessThan(DateTime.Now).WithMessage("Date of Birth must be in the past.")
-            .GreaterThan(DateTime.Now.AddYears(-70)).WithMessage("Date of Birth must be at least 70 years ago.");
+            .LessThan(DateTime.UtcNow).WithMessage("Date of Birth must be in the past.")
+            .GreaterThan(DateTime.UtcNow.AddYears(-70)).WithMessage("Date of Birth must be at least 70 years ago.");
         
         RuleFor(x => x.SocialSecurityNumber)
+            .Must(x => Personnummer.Personnummer.Valid(x))
             .MaximumLength(DataSchemeConstants.UserSocialSecurityNumberMaxLength).WithMessage("Social Security Number must not exceed {MaxLength} characters.").When(x => !string.IsNullOrEmpty(x.SocialSecurityNumber));
         
         RuleFor(x => x.EmailAddress)

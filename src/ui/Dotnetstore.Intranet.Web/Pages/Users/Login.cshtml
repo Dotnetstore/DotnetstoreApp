@@ -2,37 +2,37 @@
 @model Dotnetstore.Intranet.Web.Pages.Users.Login
 
 @{
-    ViewData["Title"] = "Login";
+    ViewData["Title"] = Localizer["Login"];
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
-<h1 data-testid="title_login">Login</h1>
+<h1 data-testid="title_login">@Localizer["Login"]</h1>
         
-<h4>Login user</h4>
+<h4>@Localizer["LoginUser"]</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div asp-validation-summary="ModelOnly" data-testid="validation_summary_user_login" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="LoginModel.Username" class="control-label"></label>
-                <input asp-for="LoginModel.Username" class="form-control" autofocus="autofocus" />
-                <span asp-validation-for="LoginModel.Username" class="text-danger"></span>
+                <label asp-for="LoginModel.Username" class="control-label">@Localizer["Username"]</label>
+                <input asp-for="LoginModel.Username" type="email" class="form-control" data-testid="input_user_login_username" autofocus="autofocus" />
+                <span asp-validation-for="LoginModel.Username" class="text-danger" data-testid="input_user_login_username_validation"></span>
             </div>
             <div class="form-group">
-                <label asp-for="LoginModel.Password" class="control-label"></label>
-                <input asp-for="LoginModel.Password" type="password" class="form-control" />
-                <span asp-validation-for="LoginModel.Password" class="text-danger"></span>
+                <label asp-for="LoginModel.Password" class="control-label">@Localizer["Password"]</label>
+                <input asp-for="LoginModel.Password" type="password" class="form-control" data-testid="input_user_login_password" />
+                <span asp-validation-for="LoginModel.Password" class="text-danger" data-testid="input_user_login_password_validation"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Login" class="btn btn-primary" />
+                <input type="submit" value="@Localizer["Login"]" class="btn btn-primary" data-testid="submit_user_login" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-page="Index">Back to List</a>
+    <a asp-page="/Index" data-testid="link_user_back_to_index">@Localizer["BackToStart"]</a>
 </div>
 
 @section Scripts {

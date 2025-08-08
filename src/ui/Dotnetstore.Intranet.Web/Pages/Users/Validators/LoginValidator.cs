@@ -1,5 +1,5 @@
 ﻿using Dotnetstore.Intranet.SDK.Services;
-using Dotnetstore.Intranet.Web.Pages.Organization.ApplicationUsers.Models;
+using Dotnetstore.Intranet.Web.Pages.Users.Models;
 using FluentValidation;
 
 namespace Dotnetstore.Intranet.Web.Pages.Users.Validators;

@@ -3,7 +3,7 @@ using Dotnetstore.Intranet.SharedKernel.Models;
 
 namespace Dotnetstore.Intranet.Organization.Roles;
 
-internal sealed class ApplicationUserRole : AggregateRoot<ApplicationUserRoleId>
+public sealed class ApplicationUserRole : AggregateRoot<ApplicationUserRoleId>
 {
     public string Name { get; init; }
     public string Description { get; init; }
@@ -37,7 +37,7 @@ internal sealed class ApplicationUserRole : AggregateRoot<ApplicationUserRoleId>
         IsGdpr = isGdpr;
     }
     
-    internal static ApplicationUserRole Create(
+    public static ApplicationUserRole Create(
         ApplicationUserRoleId id,
         string name,
         string description,
@@ -66,7 +66,7 @@ internal sealed class ApplicationUserRole : AggregateRoot<ApplicationUserRoleId>
             isGdpr);
     }
     
-    internal static ApplicationUserRole Create(
+    public static ApplicationUserRole Create(
         string name,
         string description,
         DateTime createdDate,

@@ -3,7 +3,7 @@ using Dotnetstore.Intranet.SharedKernel.Models;
 
 namespace Dotnetstore.Intranet.Organization.Users;
 
-internal sealed class ApplicationUser : PersonIdentity<ApplicationUserId>
+public sealed class ApplicationUser : PersonIdentity<ApplicationUserId>
 {
     public ICollection<ApplicationUserInRole> ApplicationUserInRoles { get; init; } = new List<ApplicationUserInRole>();
     
@@ -27,7 +27,7 @@ internal sealed class ApplicationUser : PersonIdentity<ApplicationUserId>
         bool isSystem = false,
         bool isGdpr = false,
         bool emailAddressIsConfirmed = false,
-        string? emilAddressConfirmationCode = null,
+        string? emailAddressConfirmationCode = null,
         bool accountIsApproved = false) : base(id)
     {
         LastName = lastName;
@@ -48,7 +48,7 @@ internal sealed class ApplicationUser : PersonIdentity<ApplicationUserId>
         IsSystem = isSystem;
         IsGdpr = isGdpr;
         EmailAddressIsConfirmed = emailAddressIsConfirmed;
-        EmailAddressConfirmationCode = emilAddressConfirmationCode;
+        EmailAddressConfirmationCode = emailAddressConfirmationCode;
         AccountIsApproved = accountIsApproved;
     }
     
@@ -72,7 +72,7 @@ internal sealed class ApplicationUser : PersonIdentity<ApplicationUserId>
         bool isSystem = false,
         bool isGdpr = false,
         bool emailAddressIsConfirmed = false,
-        string? emilAddressConfirmationCode = null,
+        string? emailAddressConfirmationCode = null,
         bool accountIsApproved = false)
     {
         return new ApplicationUser(
@@ -95,7 +95,7 @@ internal sealed class ApplicationUser : PersonIdentity<ApplicationUserId>
             isSystem,
             isGdpr,
             emailAddressIsConfirmed,
-            emilAddressConfirmationCode,
+            emailAddressConfirmationCode,
             accountIsApproved);
     }
     
@@ -118,7 +118,7 @@ internal sealed class ApplicationUser : PersonIdentity<ApplicationUserId>
         bool isSystem = false,
         bool isGdpr = false,
         bool emailAddressIsConfirmed = false,
-        string? emilAddressConfirmationCode = null,
+        string? emailAddressConfirmationCode = null,
         bool accountIsApproved = false)
     {
         return new ApplicationUser(
@@ -141,7 +141,7 @@ internal sealed class ApplicationUser : PersonIdentity<ApplicationUserId>
             isSystem,
             isGdpr,
             emailAddressIsConfirmed,
-            emilAddressConfirmationCode,
+            emailAddressConfirmationCode,
             accountIsApproved);
     }
 }

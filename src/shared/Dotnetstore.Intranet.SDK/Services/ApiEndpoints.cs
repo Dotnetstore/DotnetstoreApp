@@ -12,9 +12,9 @@ public static class ApiEndpoints
             
             // public const string GetAll = Users;
             // public const string GetById = $"{Users}/{{id:guid}}";
-            // public const string Login = $"{Users}/login";
+            public const string Login = $"{Users}/login";
             public const string Create = Users;
-            // public const string RenewRefreshToken = $"{Users}/renew-refresh-token";
+            public const string ConfirmEmailAddress = $"{Users}/confirm";
         }
     }
 }

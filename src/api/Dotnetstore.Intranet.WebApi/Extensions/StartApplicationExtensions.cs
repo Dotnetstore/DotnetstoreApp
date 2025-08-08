@@ -26,19 +26,19 @@ internal static class StartApplicationExtensions
     {
         builder
             .AddServiceDefaults()
-            .RegisterNServiceBus();
+            .RegisterNServiceBus()
+            .RegisterSharedKernelServices()
+            .RegisterOrganizationServices();
         
         var appSettings = builder.Configuration.GetSection("AppSettings").Get<AppSettings>();
         ArgumentNullException.ThrowIfNull(appSettings, nameof(appSettings));
 
         builder.Services
-            .RegisterSharedKernelServices()
-            .RegisterOrganizationServices()
             .AddSingleton(TimeProvider.System)
             .AddSingleton(appSettings)
             .AddAuthenticationJwtBearer(s =>
             {
-                s.SigningKey = "SecretKeyForJwtAuthentication";
+                s.SigningKey = appSettings.SecurityKey;
             })
             .AddAuthorization()
             .AddFastEndpoints()
@@ -77,9 +77,7 @@ internal static class StartApplicationExtensions
     private static WebApplication RegisterMiddlewares(this WebApplication app)
     {
         app
-            // .UseMiddleware<RefreshTokenMiddleware>()
-            .UseAuthentication()
-            .UseAuthorization()
+            .UseOrganizationServices()
             .UseHttpsRedirection()
             .UseFastEndpoints(c =>
             {

@@ -1,5 +1,5 @@
 ﻿using Dotnetstore.Intranet.SDK.Requests.Organization.Users;
-using Dotnetstore.Intranet.Web.Pages.Organization.ApplicationUsers.Services;
+using Dotnetstore.Intranet.SDK.Services;
 using Dotnetstore.Intranet.Web.Pages.Users.Models;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;

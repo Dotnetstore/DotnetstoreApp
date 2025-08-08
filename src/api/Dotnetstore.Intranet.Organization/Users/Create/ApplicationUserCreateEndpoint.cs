@@ -1,11 +1,4 @@
-﻿using Dotnetstore.Intranet.SDK.Requests.Organization.Users;
-using Dotnetstore.Intranet.SDK.Services;
-using FastEndpoints;
-using FastEndpoints.Swagger;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
-
-namespace Dotnetstore.Intranet.Organization.Users.Create;
+﻿namespace Dotnetstore.Intranet.Organization.Users.Create;
 
 internal sealed class ApplicationUserCreateEndpoint(
     IApplicationUserService applicationUserService,
@@ -22,6 +15,17 @@ internal sealed class ApplicationUserCreateEndpoint(
         {
             s.Summary = "Create Application User";
             s.Description = "Creates a new application user in the organization.";
+            s.ExampleRequest = new ApplicationUserRegisterRequest
+            {
+                FirstName = "John",
+                LastName = "Doe",
+                EmailAddress = "test@test.com",
+                Password = "Password123!",
+                ConfirmPassword = "Password123!",
+                DateOfBirth = DateTime.UtcNow.AddYears(-30),
+                IsMale = true,
+                SocialSecurityNumber = null
+            };
         });
         AllowAnonymous();
     }

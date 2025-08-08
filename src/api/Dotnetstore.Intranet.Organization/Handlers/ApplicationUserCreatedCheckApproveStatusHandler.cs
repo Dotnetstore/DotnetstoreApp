@@ -1,6 +1,4 @@
-﻿using Dotnetstore.Intranet.Contract.Events;
-using Dotnetstore.Intranet.Organization.Users;
-using Microsoft.Extensions.Logging;
+﻿using Dotnetstore.Intranet.Organization.Users;
 
 namespace Dotnetstore.Intranet.Organization.Handlers;
 

@@ -22,6 +22,22 @@
         <Generator>ResXFileCodeGenerator</Generator>
         <LastGenOutput>Register.sv.Designer.cs</LastGenOutput>
       </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Pages\Users\Login.en.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Login.en.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Pages\Users\Login.sv.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Login.sv.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Pages\Users\Confirm.en.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Confirm.en.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Pages\Users\Confirm.sv.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Confirm.sv.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
     </ItemGroup>
 
     <ItemGroup>
@@ -45,20 +61,39 @@
         <AutoGen>True</AutoGen>
         <DependentUpon>Register.sv.resx</DependentUpon>
       </Compile>
+      <Compile Update="Resources\Pages\Users\Login.en.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Login.en.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Pages\Users\Login.sv.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Login.sv.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Pages\Users\Confirm.en.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Confirm.en.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Pages\Users\Confirm.sv.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Confirm.sv.resx</DependentUpon>
+      </Compile>
     </ItemGroup>
 
     <ItemGroup>
         <PackageReference Include="FluentValidation" Version="12.0.0" />
         <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.0.0" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.7" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.7" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.7">
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.8" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.8" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.8">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="9.0.0" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-        <PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.4.0" />
         <PackageReference Include="Organisationsnummer" Version="1.2.0" />
         <PackageReference Include="Personnummer" Version="3.5.0" />
     </ItemGroup>

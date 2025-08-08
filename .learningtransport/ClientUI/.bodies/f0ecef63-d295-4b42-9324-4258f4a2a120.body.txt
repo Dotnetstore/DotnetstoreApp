@@ -1,0 +1,1 @@
+{"EmailAddressVerificationCode":"01988958123672a987dc9db97b5dfb18","UserId":"01988958-1244-7e4d-b71b-a655929e040a","EmailAddress":"testar@test.com","FullName":"Doe John"}

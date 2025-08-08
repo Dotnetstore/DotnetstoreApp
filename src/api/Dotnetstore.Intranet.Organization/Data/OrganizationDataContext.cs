@@ -5,13 +5,18 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Dotnetstore.Intranet.Organization.Data;
 
-internal sealed class OrganizationDataContext(DbContextOptions<OrganizationDataContext> options) : DbContext(options)
+public sealed class OrganizationDataContext : DbContext
 {
-    public DbSet<ApplicationUser> Users { get; set; }
+    public OrganizationDataContext(DbContextOptions<OrganizationDataContext> options) : base(options)
+    {
+        AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+    }
     
-    public DbSet<ApplicationUserRole> UserRoles { get; set; }
+    public DbSet<ApplicationUser> ApplicationUsers { get; set; }
     
-    public DbSet<ApplicationUserInRole> UserInRoles { get; set; }
+    public DbSet<ApplicationUserRole> ApplicationUserRoles { get; set; }
+    
+    public DbSet<ApplicationUserInRole> ApplicationUserInRoles { get; set; }
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

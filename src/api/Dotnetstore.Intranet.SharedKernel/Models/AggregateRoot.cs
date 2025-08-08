@@ -9,7 +9,7 @@ public abstract class AggregateRoot<TId>(TId id) : Entity<TId>(id)
 
     public Guid? LastUpdatedBy { get; init; }
 
-    public DateTime? LastUpdatedDate { get; init; }
+    public DateTime? LastUpdatedDate { get; set; }
 
     public bool IsDeleted { get; init; }
 
@@ -20,6 +20,4 @@ public abstract class AggregateRoot<TId>(TId id) : Entity<TId>(id)
     public bool IsSystem { get; init; }
 
     public bool IsGdpr { get; init; }
-
-    public byte[] ConcurrencyToken { get; init; } = null!;
 }

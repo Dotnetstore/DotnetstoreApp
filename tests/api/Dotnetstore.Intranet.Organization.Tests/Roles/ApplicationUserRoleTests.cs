@@ -29,9 +29,8 @@ public class ApplicationUserRoleTests
         properties.ShouldContain(p => p.Name == nameof(ApplicationUserRole.DeletedDate) && p.PropertyType == typeof(DateTime?));
         properties.ShouldContain(p => p.Name == nameof(ApplicationUserRole.IsSystem) && p.PropertyType == typeof(bool));
         properties.ShouldContain(p => p.Name == nameof(ApplicationUserRole.IsGdpr) && p.PropertyType == typeof(bool));
-        properties.ShouldContain(p => p.Name == nameof(ApplicationUserRole.ConcurrencyToken) && p.PropertyType == typeof(byte[]));
         properties.ShouldContain(p => p.Name == nameof(ApplicationUserRole.ApplicationUserInRoles) && p.PropertyType == typeof(ICollection<ApplicationUserInRole>));
-        properties.Length.ShouldBe(14);
+        properties.Length.ShouldBe(13);
     }
     
     [Fact]

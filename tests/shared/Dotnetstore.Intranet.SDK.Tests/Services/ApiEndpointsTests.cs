@@ -31,19 +31,19 @@ public class ApiEndpointsTests
     //     // Assert
     //     actual.ShouldBe(expected);
     // }
-    //
-    // [Fact]
-    // public void Organization_ApplicationUser_Login_ShouldReturnCorrectEndpoint()
-    // {
-    //     // Arrange
-    //     const string expected = "/api/users/login";
-    //
-    //     // Act
-    //     const string actual = ApiEndpoints.Organization.ApplicationUser.Login;
-    //
-    //     // Assert
-    //     actual.ShouldBe(expected);
-    // }
+    
+    [Fact]
+    public void Organization_ApplicationUser_Login_ShouldReturnCorrectEndpoint()
+    {
+        // Arrange
+        const string expected = "/api/users/login";
+    
+        // Act
+        const string actual = ApiEndpoints.Organization.ApplicationUser.Login;
+    
+        // Assert
+        actual.ShouldBe(expected);
+    }
 
     [Fact]
     public void Organization_ApplicationUser_Create_ShouldReturnCorrectEndpoint()
@@ -58,16 +58,16 @@ public class ApiEndpointsTests
         actual.ShouldBe(expected);
     }
 
-    // [Fact]
-    // public void Organization_ApplicationUser_RenewRefreshToken_ShouldReturnCorrectEndpoint()
-    // {
-    //     // Arrange
-    //     const string expected = "/api/users/renew-refresh-token";
-    //
-    //     // Act
-    //     const string actual = ApiEndpoints.Organization.ApplicationUser.RenewRefreshToken;
-    //
-    //     // Assert
-    //     actual.ShouldBe(expected);
-    // }
+    [Fact]
+    public void Organization_ApplicationUser_ConfirmEmailAddress_ShouldReturnCorrectEndpoint()
+    {
+        // Arrange
+        const string expected = "/api/users/confirm";
+    
+        // Act
+        const string actual = ApiEndpoints.Organization.ApplicationUser.ConfirmEmailAddress;
+    
+        // Assert
+        actual.ShouldBe(expected);
+    }
 }

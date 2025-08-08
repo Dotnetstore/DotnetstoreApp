@@ -2,7 +2,7 @@
 
 namespace Dotnetstore.Intranet.Organization.UserInRoles;
 
-internal class ApplicationUserInRoleId : ValueObject
+public class ApplicationUserInRoleId : ValueObject
 {
     internal Guid Value { get; }
 

@@ -37,12 +37,11 @@ public class ApplicationUserTests
         properties.ShouldContain(p => p.Name == nameof(ApplicationUser.IsGdpr) && p.PropertyType == typeof(bool));
         properties.ShouldContain(p => p.Name == nameof(ApplicationUser.RefreshToken) && p.PropertyType == typeof(string));
         properties.ShouldContain(p => p.Name == nameof(ApplicationUser.RefreshTokenExpiryTime) && p.PropertyType == typeof(DateTime?));
-        properties.ShouldContain(p => p.Name == nameof(ApplicationUser.ConcurrencyToken) && p.PropertyType == typeof(byte[]));
         properties.ShouldContain(p => p.Name == nameof(ApplicationUser.AccountIsApproved) && p.PropertyType == typeof(bool));
         properties.ShouldContain(p => p.Name == nameof(ApplicationUser.EmailAddressConfirmationCode) && p.PropertyType == typeof(string));
         properties.ShouldContain(p => p.Name == nameof(ApplicationUser.EmailAddressIsConfirmed) && p.PropertyType == typeof(bool));
         properties.ShouldContain(p => p.Name == nameof(ApplicationUser.ApplicationUserInRoles) && p.PropertyType == typeof(ICollection<ApplicationUserInRole>));
-        properties.Length.ShouldBe(25);
+        properties.Length.ShouldBe(24);
     }
 
     [Fact]

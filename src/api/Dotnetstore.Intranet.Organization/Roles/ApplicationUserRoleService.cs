@@ -1,15 +1,11 @@
-﻿using Dotnetstore.Intranet.Organization.Data;
+﻿using Dotnetstore.Intranet.Organization.Services;
 
 namespace Dotnetstore.Intranet.Organization.Roles;
 
-internal sealed class ApplicationUserRoleService : IApplicationUserRoleService
+internal sealed class ApplicationUserRoleService(IUnitOfWork unitOfWork) : IApplicationUserRoleService
 {
     async ValueTask<ApplicationUserRole?> IApplicationUserRoleService.GetByNameAsync(string roleName, CancellationToken cancellationToken)
     {
-        await Task.Delay(100, cancellationToken);
-
-        var role = OrganizationDatabase.Roles.FirstOrDefault(r => r.Name.Equals(roleName, StringComparison.OrdinalIgnoreCase));
-
-        return role;
+        return await unitOfWork.Roles.GetByNameAsync(roleName, cancellationToken).ConfigureAwait(false);
     }
 }
